@@ -11,17 +11,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-
 const AccountingEntries = () => {
   const [name, setName] = useState("");
   const [customerEntry, setCustomerEntry] = useState({
-    customerName: "",
     monthComplianceDate: "",
     monthComplianceAmount: "",
     epfAmount: "",
     esicAmount: "",
     otherDebit: "",
-    remarks: "",
+    remarks: "Compliance For the Month/Period ",
     phoneNumber: "",
     email: "",
   });
@@ -51,11 +49,11 @@ const AccountingEntries = () => {
       ...customerEntry,
       [event.target.name]: event.target.value,
     });
+    console.log(customerEntry);
   };
 
   const handleValidation = () => {
     const {
-      customerName,
       monthComplianceDate,
       monthComplianceAmount,
       epfAmount,
@@ -63,6 +61,8 @@ const AccountingEntries = () => {
       otherDebit,
       remarks,
     } = customerEntry;
+    const customerName = name;
+    console.log(customerName);
     if (customerName === "") {
       toast.error("Customer Name is required", toastOptions);
       return false;
@@ -90,14 +90,13 @@ const AccountingEntries = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setCustomerEntry({
+    await setCustomerEntry({
       ...customerEntry,
       customerName: name,
     });
 
     if (handleValidation()) {
       const {
-        customerName,
         monthComplianceDate,
         monthComplianceAmount,
         epfAmount,
@@ -107,7 +106,7 @@ const AccountingEntries = () => {
       } = customerEntry;
 
       const { data } = await axios.post(AccountingEntryRoute, {
-        customerName,
+        customerName: name,
         monthComplianceDate,
         monthComplianceAmount,
         epfAmount,
@@ -115,13 +114,13 @@ const AccountingEntries = () => {
         otherDebit,
         remarks,
       });
+      console.log(name);
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
         toast.success(data.msg, toastOptions);
-          
       }
     }
   };
@@ -156,7 +155,11 @@ const AccountingEntries = () => {
                   sx={{ minWidth: 190 }}
                   className="pl-2 outline-none border-none bg-transparent hover:border-none"
                 >
-                  <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                  <FormControl
+                    fullWidth
+                    variant="standard"
+                    sx={{ m: 1, minWidth: 120 }}
+                  >
                     <InputLabel id="demo-simple-select-label">
                       Customer Name
                     </InputLabel>
@@ -251,7 +254,7 @@ const AccountingEntries = () => {
                   name="epfAmount"
                   autoComplete="off"
                   onChange={handleChange}
-                  placeholder="Epf Fees"
+                  placeholder="Epf Payable"
                 />
               </div>
             </div>
@@ -280,7 +283,7 @@ const AccountingEntries = () => {
                   autoComplete="off"
                   name="esicAmount"
                   onChange={handleChange}
-                  placeholder="Esic Fees"
+                  placeholder="Esic Payable"
                 />
               </div>
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -312,7 +315,7 @@ const AccountingEntries = () => {
 
             {/* Fourth Box */}
             <div className="flex">
-              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -324,41 +327,18 @@ const AccountingEntries = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M15 8.25H9m6 3H9m3 6l-3-3h1.5a3 3 0 100-6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
                   />
                 </svg>
 
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none w-full"
                   type="text"
                   name="remarks"
                   autoComplete="off"
                   onChange={handleChange}
+                  value={customerEntry.remarks}
                   placeholder="Remarks"
-                />
-              </div>
-              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5 text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25"
-                  />
-                </svg>
-
-                <input
-                  className="pl-2 outline-none border-none"
-                  type="number"
-                  name="phoneNumber"
-                  autoComplete="off"
-                  onChange={handleChange}
-                  placeholder="PhoneNumber"
                 />
               </div>
             </div>
@@ -371,9 +351,7 @@ const AccountingEntries = () => {
           </form>
         </div>
         {/* Right Side Div */}
-        <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
-         
-        </div>
+        <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden"></div>
       </div>
       <Footer />
       <ToastContainer />

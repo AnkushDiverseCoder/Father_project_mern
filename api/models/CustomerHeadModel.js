@@ -26,11 +26,13 @@ const CustomerHeadSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required:true
   },
   representativeName:{
     type: String,
     required: true
+  },
+  remarks:{
+    type: String,
   }
   
 }, { timestamps: true })

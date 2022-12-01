@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DailyReport from "./components/DailyReport";
 import IndividualReport from "./components/IndividualReport";
 import MonthlyReport from "./components/MonthlyReport";
@@ -8,11 +8,9 @@ import CustomerHead from "./pages/CustomerHead";
 
 // pages & components
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Report from "./pages/Report";
 
 function App() {
-  const user = localStorage.getItem("jwt-token");
   return (
     <BrowserRouter>
       <Routes>
@@ -21,55 +19,55 @@ function App() {
           {/* Home Page */}
           <Route
             index
-            element={user ? <Home /> : <Navigate to="/Login" />}
+            element={<Home /> }
           ></Route>
           {/* contact page */}
           <Route
             path="/contact"
-            element={user ? <Contact /> : <Navigate to="/Login" />}
+            element={ <Contact /> }
             ></Route>
             {/* customerhead page */}
           <Route
             path="/customerhead"
-            element={user ? <CustomerHead /> : <Navigate to="/Login" />}
+            element={ <CustomerHead /> }
           ></Route>
             {/* Accounting Entries page */}
           <Route
             path="/accountingentries"
-            element={user ? <AccountingEntries /> : <Navigate to="/Login" />}
+            element={ <AccountingEntries /> }
           ></Route>
             {/* report page */}
           <Route
             path="/report"
-            element={user ? <Report off={true}/> : <Navigate to="/Login" />}
+            element={ <Report off={true}/> }
           ></Route>
             {/* daily report page */}
           <Route
             path="/dailyReport"
-            element={user ? <DailyReport /> : <Navigate to="/Login" />}
+            element={ <DailyReport /> }
           ></Route>
             {/* monthly report page */}
           <Route
             path="/monthlyReport"
-            element={user ? <MonthlyReport /> : <Navigate to="/Login" />}
+            element={ <MonthlyReport /> }
           ></Route>
             {/* Individual report page */}
           <Route
             path="/individualReport"
-            element={user ? <IndividualReport/> : <Navigate to="/Login" />}
+            element={ <IndividualReport/> }
           ></Route>
         </Route>
 
         {/* login and signup routes */}
-        <Route
+        {/* <Route
           path="/login"
           exact
-          element={user ? <Navigate to="/" /> : <Login />}
-        />
+          element={ <Navigate to="/" /> : <Login />}
+        /> */}
         {/* <Route
           path="/signup"
           exact
-          element={user ? <Navigate to="/" /> : <Signup />}
+          element={ <Navigate to="/" /> : <Signup />}
         /> */}
       </Routes>
     </BrowserRouter>

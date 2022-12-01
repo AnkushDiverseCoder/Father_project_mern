@@ -154,7 +154,7 @@ const Table = ({ data, filterData, setFilterData }) => {
       Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
       Customer_Name: item.customerName,
       Representative_Name: item.representativeName,
-      Contact_Nummber: item.customerName,
+      Contact_Number: item.contactNumber,
       Email: item.email,
       Amount_Credited: item.monthComplianceAmount,
       EPF_Debit: item.epfAmount,
