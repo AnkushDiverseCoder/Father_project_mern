@@ -15,7 +15,6 @@ const AccountingEntrySchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
   },
   monthComplianceDate: {
     type: Date,

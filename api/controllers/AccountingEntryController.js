@@ -23,7 +23,7 @@ export const AccountingEntryApi = async (req, res, next) => {
       esicAmount,
       otherDebit,
       remarks,
-      email: customerHeadData.email,
+      email: customerHeadData.email ? customerHeadData.email : "",
       contactNumber: customerHeadData.contactNumber,
       professionalFees: customerHeadData.professionalFees,
       representativeName: customerHeadData.representativeName,
@@ -36,6 +36,6 @@ export const AccountingEntryApi = async (req, res, next) => {
         msg: "AccountingEntry Created successfully,Whatsapp Send Successfully",
       });
   } catch (error) {
-    res.json({ status: true, msg: error.message });
+    res.json({ status: false, msg: error.message });
   }
 };

@@ -2,7 +2,7 @@ import { CustomerHead } from "../models/CustomerHeadModel.js"
 
 export const CustomerHeadApi = async(req,res, next)=>{
     try {
-        const { customerName, contactNumber, professionalFees, date , epfNumber,representativeName ,esicNumber,email  } = req.body;
+        const { customerName, contactNumber, professionalFees, date , epfNumber,representativeName ,esicNumber,email,remarks  } = req.body;
         await CustomerHead.create({
             customerName,
             epfNumber,
@@ -11,12 +11,13 @@ export const CustomerHeadApi = async(req,res, next)=>{
             date,
             professionalFees,
             email,
-            representativeName
+            representativeName,
+            remarks
           })
           res.status(200).json({ status: true , msg: "CustomerHead Created successfully" })
 
         } catch (error) {
-            res.json({ status: false , msg: "Customer Name already used" });
+            res.json({ status: false , msg: error.message });
      }
 }
 
