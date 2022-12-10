@@ -20,10 +20,6 @@ const CustomerHeadSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  professionalFees: {
-    type: Number,
-    required: true
-  },
   email: {
     type: String,
   },

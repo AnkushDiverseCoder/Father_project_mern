@@ -29,7 +29,7 @@ const Table = ({ data, filterData, setFilterData }) => {
 
   const handleDelete = async (id) => {
     const { data } = await axios.delete(
-      `https://vaishnaviconsultant.herokuapp.com/api/Report/${id}`
+      `https://gorgeous-scrubs-crow.cyclic.app/api/Report/${id}`
     );
     if (data.status === false) {
       toast.error(data.msg, toastOptions);

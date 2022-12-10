@@ -2,14 +2,13 @@ import { CustomerHead } from "../models/CustomerHeadModel.js"
 
 export const CustomerHeadApi = async(req,res, next)=>{
     try {
-        const { customerName, contactNumber, professionalFees, date , epfNumber,representativeName ,esicNumber,email,remarks  } = req.body;
+        const { customerName, contactNumber, date , epfNumber,representativeName ,esicNumber,email,remarks  } = req.body;
         await CustomerHead.create({
             customerName,
             epfNumber,
             esicNumber,
             contactNumber,
             date,
-            professionalFees,
             email,
             representativeName,
             remarks

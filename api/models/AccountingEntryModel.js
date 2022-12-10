@@ -36,7 +36,6 @@ const AccountingEntrySchema = new mongoose.Schema({
   },
   professionalFees:{
     type: Number,
-    required: true
   },
   remarks: {
     type: String,

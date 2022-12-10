@@ -14,7 +14,6 @@ const CustomerHead = () => {
     esicNumber: "",
     contactNumber: "",
     date: "",
-    professionalFees: "",
     email: "",
     remarks: "",
   });
@@ -37,16 +36,12 @@ const CustomerHead = () => {
   };
 
   const handleValidation = () => {
-    const { customerName, contactNumber, professionalFees, date } =
-      customerData;
+    const { customerName, contactNumber, date } = customerData;
     if (customerName === "") {
       toast.error("Customer Name is required", toastOptions);
       return false;
     } else if (contactNumber === "") {
       toast.error("ContactNumber is required", toastOptions);
-      return false;
-    } else if (professionalFees === "") {
-      toast.error("professionalFees is required", toastOptions);
       return false;
     } else if (date === "") {
       toast.error("date of commencement is required", toastOptions);
@@ -65,9 +60,8 @@ const CustomerHead = () => {
         esicNumber,
         contactNumber,
         date,
-        professionalFees,
         email,
-        remarks
+        remarks,
       } = customerData;
       const { data } = await axios.post(CustomerHeadRoute, {
         customerName,
@@ -76,9 +70,8 @@ const CustomerHead = () => {
         esicNumber,
         contactNumber,
         date,
-        professionalFees,
         email,
-        remarks
+        remarks,
       });
 
       if (data.status === false) {
@@ -86,6 +79,17 @@ const CustomerHead = () => {
       }
       if (data.status === true) {
         toast.success(data.msg, toastOptions);
+        setCustomerData({
+          ...customerData,
+          customerName: "",
+          representativeName: "",
+          epfNumber: "",
+          esicNumber: "",
+          contactNumber: "",
+          date: "",
+          email: "",
+          remarks: "",
+        });
       }
     }
   };
@@ -126,6 +130,7 @@ const CustomerHead = () => {
                   className="pl-2 outline-none border-none"
                   type="text"
                   name="customerName"
+                  value={customerData.customerName}
                   autoComplete="off"
                   onChange={handleChange}
                   placeholder="Full Customer name"
@@ -149,6 +154,7 @@ const CustomerHead = () => {
                   type="text"
                   name="representativeName"
                   onChange={handleChange}
+                  value={customerData.representativeName}
                   autoComplete="off"
                   placeholder="Representative Name"
                 />
@@ -176,6 +182,7 @@ const CustomerHead = () => {
                   className="pl-2 outline-none border-none"
                   type="text"
                   name="epfNumber"
+                  value={customerData.epfNumber}
                   onChange={handleChange}
                   autoComplete="off"
                   placeholder="EPF Code Number"
@@ -201,6 +208,7 @@ const CustomerHead = () => {
                   className="pl-2 outline-none border-none"
                   type="Number"
                   name="esicNumber"
+                  value={customerData.esicNumber}
                   onChange={handleChange}
                   autoComplete="off"
                   placeholder="ESIC Code Number"
@@ -231,6 +239,7 @@ const CustomerHead = () => {
                   type="Number"
                   name="contactNumber"
                   onChange={handleChange}
+                  value={customerData.contactNumber}
                   autoComplete="off"
                   placeholder="Contact Number"
                 />
@@ -255,6 +264,7 @@ const CustomerHead = () => {
                   type="date"
                   name="date"
                   onChange={handleChange}
+                  value={customerData.date}
                   autoComplete="off"
                   placeholder="Date of Commencement"
                 />
@@ -263,31 +273,6 @@ const CustomerHead = () => {
 
             {/* Fourth Box */}
             <div className="flex">
-              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-5 w-5 text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 8.25H9m6 3H9m3 6l-3-3h1.5a3 3 0 100-6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-
-                <input
-                  className="pl-2 outline-none border-none"
-                  type="Number"
-                  name="professionalFees"
-                  onChange={handleChange}
-                  autoComplete="off"
-                  placeholder="Professional Fees"
-                />
-              </div>
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -307,15 +292,12 @@ const CustomerHead = () => {
                   className="pl-2 outline-none border-none"
                   type="email "
                   name="email"
+                  value={customerData.email}
                   onChange={handleChange}
                   placeholder="Email Address"
                   autoComplete="off"
                 />
               </div>
-            </div>
-
-            {/* Fifth Box */}
-            <div className="flex">
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -337,6 +319,7 @@ const CustomerHead = () => {
                   type="text"
                   name="remarks"
                   autoComplete="off"
+                  value={customerData.remarks}
                   onChange={handleChange}
                   placeholder="Remarks"
                 />

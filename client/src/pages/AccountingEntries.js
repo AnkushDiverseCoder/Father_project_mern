@@ -13,6 +13,7 @@ import Select from "@mui/material/Select";
 
 const AccountingEntries = () => {
   const [name, setName] = useState("");
+
   const [customerEntry, setCustomerEntry] = useState({
     monthComplianceDate: "",
     monthComplianceAmount: "",
@@ -20,8 +21,7 @@ const AccountingEntries = () => {
     esicAmount: "",
     otherDebit: "",
     remarks: "Compliance For the Month/Period ",
-    phoneNumber: "",
-    email: "",
+    professionalFees: "",
   });
 
   const [customerNameData, setCustomerNameData] = useState(null);
@@ -49,7 +49,6 @@ const AccountingEntries = () => {
       ...customerEntry,
       [event.target.name]: event.target.value,
     });
-    console.log(customerEntry);
   };
 
   const handleValidation = () => {
@@ -59,6 +58,7 @@ const AccountingEntries = () => {
       epfAmount,
       esicAmount,
       otherDebit,
+      professionalFees,
       remarks,
     } = customerEntry;
     const customerName = name;
@@ -84,6 +84,9 @@ const AccountingEntries = () => {
     } else if (remarks === "") {
       toast.error("remarks is required", toastOptions);
       return false;
+    } else if (professionalFees === "") {
+      toast.error("professionalFees is required", toastOptions);
+      return false;
     }
     return true;
   };
@@ -102,6 +105,7 @@ const AccountingEntries = () => {
         epfAmount,
         esicAmount,
         otherDebit,
+        professionalFees,
         remarks,
       } = customerEntry;
 
@@ -113,15 +117,26 @@ const AccountingEntries = () => {
         esicAmount,
         otherDebit,
         remarks,
+        professionalFees,
       });
-      console.log(name);
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
         toast.success(data.msg, toastOptions);
+        setCustomerEntry({
+          ...customerEntry,
+          monthComplianceDate: "",
+          monthComplianceAmount: "",
+          epfAmount: "",
+          esicAmount: "",
+          otherDebit: "",
+          remarks: "Compliance For the Month/Period ",
+          professionalFees: "",
+        });
       }
+      const emailBackend = data.email
     }
   };
 
@@ -198,6 +213,7 @@ const AccountingEntries = () => {
                   className="pl-2 outline-none border-none bg-transparent"
                   type="date"
                   name="monthComplianceDate"
+                  value={customerEntry.monthComplianceDate}
                   onChange={handleChange}
                   autoComplete="off"
                   placeholder="Date of Commencement"
@@ -227,6 +243,7 @@ const AccountingEntries = () => {
                   className="pl-2 outline-none border-none"
                   type="Number"
                   name="monthComplianceAmount"
+                  value={customerEntry.monthComplianceAmount}
                   onChange={handleChange}
                   autoComplete="off"
                   placeholder="Compliance Credited"
@@ -252,6 +269,7 @@ const AccountingEntries = () => {
                   className="pl-2 outline-none border-none"
                   type="Number"
                   name="epfAmount"
+                  value={customerEntry.epfAmount}
                   autoComplete="off"
                   onChange={handleChange}
                   placeholder="Epf Payable"
@@ -282,6 +300,7 @@ const AccountingEntries = () => {
                   type="Number"
                   autoComplete="off"
                   name="esicAmount"
+                  value={customerEntry.esicAmount}
                   onChange={handleChange}
                   placeholder="Esic Payable"
                 />
@@ -306,6 +325,7 @@ const AccountingEntries = () => {
                   className="pl-2 outline-none border-none"
                   type="Number"
                   name="otherDebit"
+                  value={customerEntry.otherDebit}
                   onChange={handleChange}
                   autoComplete="off"
                   placeholder="Other Debit"
@@ -339,6 +359,32 @@ const AccountingEntries = () => {
                   onChange={handleChange}
                   value={customerEntry.remarks}
                   placeholder="Remarks"
+                />
+              </div>
+              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5 text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 8.25H9m6 3H9m3 6l-3-3h1.5a3 3 0 100-6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+
+                <input
+                  className="pl-2 outline-none border-none"
+                  type="Number"
+                  name="professionalFees"
+                  value={customerEntry.professionalFees}
+                  onChange={handleChange}
+                  autoComplete="off"
+                  placeholder="professionalFees"
                 />
               </div>
             </div>
