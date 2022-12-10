@@ -1,18 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { AccountingEntryRoute, getCustomerName } from "../utils/ApiRoutes";
+import {
+  AccountingEntryRoute,
+  getCustomerEmail,
+  getCustomerName,
+} from "../utils/ApiRoutes";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import emailjs from "@emailjs/browser";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const AccountingEntries = () => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState("New EPF/ESIC Registration");
+  const [sendEmail, setSendEmail] = useState(false);
+  const [Email, setEmail] = useState("");
+  const refEmail = useRef();
+
+  const handleNameChange = async (e) => {
+    setName(e.target.value);
+  };
 
   const [customerEntry, setCustomerEntry] = useState({
     monthComplianceDate: "",
@@ -30,9 +45,13 @@ const AccountingEntries = () => {
     const fetchCustomerName = async () => {
       const allCustomerName = await axios.get(getCustomerName);
       setCustomerNameData(allCustomerName.data.msg);
+      const getCustomerEmailAddress = await axios.post(getCustomerEmail, {
+        customerName: name,
+      });
+      setEmail(getCustomerEmailAddress.data.email);
     };
     fetchCustomerName();
-  }, []);
+  }, [name]);
 
   const toastOptions = {
     position: "bottom-center",
@@ -118,27 +137,67 @@ const AccountingEntries = () => {
         otherDebit,
         remarks,
         professionalFees,
+        sendEmailCheck: sendEmail,
       });
+
+      if (sendEmail) {
+        
+        emailjs
+          .sendForm(
+            "service_dm3bdfi",
+            "template_ogwlg4e",
+            refEmail.current,
+            "Wjf9hzjOl_FZgISVH"
+          )
+          .then(
+            (result) => {
+              console.log(result);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        console.log(refEmail.current);
+      }
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
+
       if (data.status === true) {
         toast.success(data.msg, toastOptions);
-        setCustomerEntry({
-          ...customerEntry,
-          monthComplianceDate: "",
-          monthComplianceAmount: "",
-          epfAmount: "",
-          esicAmount: "",
-          otherDebit: "",
-          remarks: "Compliance For the Month/Period ",
-          professionalFees: "",
-        });
+        if (data.response) {
+          console.log(data.response);
+        }
+        setSendEmail(false);
       }
-      const emailBackend = data.email
     }
   };
+
+  // setCustomerEntry({
+  //   ...customerEntry,
+  //   monthComplianceDate: "",
+  //   monthComplianceAmount: "",
+  //   epfAmount: "",
+  //   esicAmount: "",
+  //   otherDebit: "",
+  //   remarks: "Compliance For the Month/Period ",
+  //   professionalFees: "",
+  // });
+
+  const creditedAmount = parseInt(customerEntry.monthComplianceAmount);
+
+  const debit =
+    parseInt(customerEntry.epfAmount) +
+    parseInt(customerEntry.esicAmount) +
+    parseInt(customerEntry.otherDebit) +
+    parseInt(customerEntry.professionalFees);
+  const balance =
+    parseInt(customerEntry.monthComplianceAmount) -
+    (parseInt(customerEntry.epfAmount) +
+      parseInt(customerEntry.esicAmount) +
+      parseInt(customerEntry.otherDebit) +
+      parseInt(customerEntry.professionalFees));
 
   return (
     <>
@@ -183,7 +242,7 @@ const AccountingEntries = () => {
                       id="demo-simple-select"
                       name="customerName"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={handleNameChange}
                     >
                       {customerNameData?.map((item, index) => (
                         <MenuItem key={item._id} value={item._id}>
@@ -388,6 +447,53 @@ const AccountingEntries = () => {
                 />
               </div>
             </div>
+
+            {/* Email Check Box */}
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={sendEmail}
+                    onChange={(e) => setSendEmail(e.target.checked)}
+                  />
+                }
+                label="Email"
+                className="text-gray-400"
+              />
+            </FormGroup>
+            {/* Checking block */}
+            {sendEmail && (
+              <>
+                <label>Check Details</label>
+                <form
+                  ref={refEmail}
+                  onSubmit={sendEmail}
+                  className="flex flex-col "
+                >
+                  <div>
+                    <label className="pr-3">creditedAmount</label>
+                    <input
+                      type="text"
+                      name="creditedAmount"
+                      value={creditedAmount}
+                    />
+                  </div>
+                  <div>
+                    <label className="pr-3">debit</label>
+                    <input type="text" name="debit" value={debit} />
+                  </div>
+                  <div>
+                    <label className="pr-3">balance</label>
+                    <input type="text" name="balance" value={balance} />
+                  </div>
+                  <div>
+                    <label className="pr-3">Email</label>
+                    <input type="email" name="user_email" value={Email} />
+                  </div>
+                </form>
+              </>
+            )}
+
             <button
               type="submit"
               className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
