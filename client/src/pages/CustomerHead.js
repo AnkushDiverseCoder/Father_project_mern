@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { CustomerHeadRoute } from "../utils/ApiRoutes";
+import { useNavigate } from "react-router-dom";
 
 const CustomerHead = () => {
   const [customerData, setCustomerData] = useState({
@@ -17,6 +18,15 @@ const CustomerHead = () => {
     email: "",
     remarks: "",
   });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
 
   const toastOptions = {
     position: "bottom-center",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import DatePicker from "react-datepicker";
@@ -9,6 +9,7 @@ import { monthlyReportRoute } from "../utils/ApiRoutes";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import Table from "./Table";
+import { useNavigate } from "react-router-dom";
 
 const MonthlyReport = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -27,6 +28,15 @@ const MonthlyReport = () => {
     draggable: true,
     theme: "dark",
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,6 +112,7 @@ const MonthlyReport = () => {
             <Table
               data={data}
               filterData={filterData}
+              title="Historical Report"
               setFilterData={setFilterData}
             />
           </div>

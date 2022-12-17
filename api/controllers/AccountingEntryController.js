@@ -17,19 +17,25 @@ export const AccountingEntryApi = async (req, res, next) => {
 
     const customerHeadData = await CustomerHead.findOne({ customerName });
     
-    await AccountingEntry.create({
-      customerName,
-      monthComplianceDate,
-      monthComplianceAmount,
-      epfAmount,
-      esicAmount,
-      otherDebit,
-      remarks,
-      email: customerHeadData.email ? customerHeadData.email : "",
-      contactNumber: customerHeadData.contactNumber,
-      professionalFees,
-      representativeName: customerHeadData.representativeName,
-    });
+    
+    const duplicateFind = await AccountingEntry.findOne({ customerName,monthComplianceDate,monthComplianceAmount,epfAmount,esicAmount });
+    if(!duplicateFind){
+      await AccountingEntry.create({
+        customerName,
+        monthComplianceDate,
+        monthComplianceAmount,
+        epfAmount,
+        esicAmount,
+        otherDebit,
+        remarks,
+        email: customerHeadData.email ? customerHeadData.email : "",
+        contactNumber: customerHeadData.contactNumber,
+        professionalFees,
+        representativeName: customerHeadData.representativeName,
+      });
+    }else{
+      return res.status(500).json({ status: false, msg: "Duplicate Entry Found In same Customer Name , Verify Before Submit " });
+    }
 
     if(sendEmailCheck){
     res.status(200).json({
@@ -39,7 +45,7 @@ export const AccountingEntryApi = async (req, res, next) => {
   }else{
     res.status(200).json({
       status: true,
-      msg: "Entry done Successfully",
+      msg: "Entry Done Successfully",
     })
   }
   } catch (error) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -8,6 +8,13 @@ import IndividualImg from "../assets/11.jpeg"
 
 const Report = ({off}) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
   
   const navigatePage = (e) => {
     e.preventDefault();

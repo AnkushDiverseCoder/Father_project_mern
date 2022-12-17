@@ -8,6 +8,8 @@ import CustomerHead from "./pages/CustomerHead";
 
 // pages & components
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+// import Signup from "./pages/Signup";
 import Report from "./pages/Report";
 
 function App() {
@@ -59,15 +61,15 @@ function App() {
         </Route>
 
         {/* login and signup routes */}
-        {/* <Route
+        <Route
           path="/login"
           exact
-          element={ <Navigate to="/" /> : <Login />}
-        /> */}
-        {/* <Route
+          element={ <Login />}
+        />
+         {/* <Route
           path="/signup"
           exact
-          element={ <Navigate to="/" /> : <Signup />}
+          element={<Signup /> }
         /> */}
       </Routes>
     </BrowserRouter>

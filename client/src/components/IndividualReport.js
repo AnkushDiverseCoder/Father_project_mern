@@ -9,6 +9,7 @@ import { getCustomerName, individualReportRoute } from "../utils/ApiRoutes";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import Table from "./Table";
+import { useNavigate } from "react-router-dom";
 
 const DailyReport = () => {
   const [filterData, setFilterData] = useState([]);
@@ -20,6 +21,15 @@ const DailyReport = () => {
     };
     fetchCustomerName();
   }, []);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
 
   const [name, setName] = useState("");
   const [customerNameData, setCustomerNameData] = useState(null);
@@ -128,7 +138,9 @@ const DailyReport = () => {
             <Table
               id={data._id}
               data={data}
+              remarks='true'
               filterData={filterData}
+              title="Individual Report"
               setFilterData={setFilterData}
             />
           </div>

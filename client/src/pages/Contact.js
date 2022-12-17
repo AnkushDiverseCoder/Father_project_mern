@@ -1,8 +1,19 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 const Contact = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
+
   return (
     <>
     <Navbar/>

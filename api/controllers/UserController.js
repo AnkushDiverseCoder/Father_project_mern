@@ -12,7 +12,7 @@ export const register = async (req, res, next) => {
       return res.json({ msg: "Username already used", status: false });
 
     // check Email
-    const emailCheck = await User.findOne({ email });
+    const emailCheck = await User.findOne({ email });www
     if (emailCheck)
       return res.json({ msg: "Email already used", status: false });
 

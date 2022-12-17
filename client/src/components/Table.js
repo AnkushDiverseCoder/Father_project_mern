@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Moment from "moment";
 
-const Table = ({ data, filterData, setFilterData }) => {
+const Table = ({ data, filterData, setFilterData, title, remarks }) => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -49,6 +49,7 @@ const Table = ({ data, filterData, setFilterData }) => {
       style: {
         color: "#202124",
         fontSize: "14px",
+        overflow:'wrap'
       },
     },
     rows: {
@@ -57,7 +58,13 @@ const Table = ({ data, filterData, setFilterData }) => {
         borderBottomColor: "#FFFFFF",
         borderRadius: "25px",
         outline: "1px solid #FFFFFF",
+        overflow:'wrap'
       },
+      cells:{
+        style:{
+          overflow:'wrap'
+        }
+      }
     },
     pagination: {
       style: {
@@ -131,7 +138,9 @@ const Table = ({ data, filterData, setFilterData }) => {
     },
     {
       name: "Remarks",
-      selector: (row) => row.remarks,
+      selector: (row) => ( 
+          <p className="whitespace-pre-line break-words" >{row.remarks}</p>
+      ),
       sortable: true,
     },
     {
@@ -149,43 +158,84 @@ const Table = ({ data, filterData, setFilterData }) => {
   ];
 
   const downloadPdf = () => {
-    const exportExcel = data.map((item, i) => ({
-      SNo: i,
-      Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
-      Customer_Name: item.customerName,
-      Representative_Name: item.representativeName,
-      Contact_Number: item.contactNumber,
-      Email: item.email,
-      Amount_Credited: item.monthComplianceAmount,
-      EPF_Debit: item.epfAmount,
-      ESIC_Debit: item.esicAmount,
-      Other_Debit: item.otherDebit,
-      // Professional_Fees:item.ProfessionalFees,
-      Total_Debit:
-        item.epfAmount +
-        item.esicAmount +
-        item.otherDebit +
-        item.professionalFees,
-      Net_Difference:
-        item.monthComplianceAmount -
-        item.epfAmount -
-        item.otherDebit -
-        item.esicAmount -
-        item.professionalFees,
-    }));
+    if (remarks) {
+      const exportExcel = data.map((item, i) => ({
+        SNo: i,
+        Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
+        Customer_Name: item.customerName,
+        Representative_Name: item.representativeName,
+        Contact_Number: item.contactNumber,
+        Email: item.email,
+        Amount_Credited: item.monthComplianceAmount,
+        EPF_Debit: item.epfAmount,
+        ESIC_Debit: item.esicAmount,
+        Other_Debit: item.otherDebit,
+        // Professional_Fees:item.ProfessionalFees,
+        Total_Debit:
+          item.epfAmount +
+          item.esicAmount +
+          item.otherDebit +
+          item.professionalFees,
+        Net_Difference:
+          item.monthComplianceAmount -
+          item.epfAmount -
+          item.otherDebit -
+          item.esicAmount -
+          item.professionalFees,
+        remarks: item.remarks,
+      }));
+      const workSheet = XLSX.utils.json_to_sheet(exportExcel);
+      const workBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workBook,
+        workSheet,
+        "Accounting Entries Data"
+      );
+  
+      // Binary String
+      XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+      // Download Excel file
+      XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
+    } else {
+      const exportExcel = data.map((item, i) => ({
+        SNo: i,
+        Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
+        Customer_Name: item.customerName,
+        Representative_Name: item.representativeName,
+        Contact_Number: item.contactNumber,
+        Email: item.email,
+        Amount_Credited: item.monthComplianceAmount,
+        EPF_Debit: item.epfAmount,
+        ESIC_Debit: item.esicAmount,
+        Other_Debit: item.otherDebit,
+        // Professional_Fees:item.ProfessionalFees,
+        Total_Debit:
+          item.epfAmount +
+          item.esicAmount +
+          item.otherDebit +
+          item.professionalFees,
+        Net_Difference:
+          item.monthComplianceAmount -
+          item.epfAmount -
+          item.otherDebit -
+          item.esicAmount -
+          item.professionalFees,
+      }));
+      const workSheet = XLSX.utils.json_to_sheet(exportExcel);
+      const workBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workBook,
+        workSheet,
+        "Accounting Entries Data"
+      );
+  
+      // Binary String
+      XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+      // Download Excel file
+      XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
+    }
 
-    const workSheet = XLSX.utils.json_to_sheet(exportExcel);
-    const workBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(
-      workBook,
-      workSheet,
-      "Accounting Entries Data"
-    );
-
-    // Binary String
-    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-    // Download Excel file
-    XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
+   
   };
 
   return (
@@ -194,8 +244,9 @@ const Table = ({ data, filterData, setFilterData }) => {
         columns={columns}
         data={filterData}
         pagination
-        title="Daily Report"
+        title={title}
         fixedHeader
+        style={{overflow:'wrap'}}
         fixedHeaderScrollHeight="400px"
         highlightOnHover
         customStyles={customStyles}

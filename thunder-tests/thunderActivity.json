@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "ca0408b9-81df-47b0-9851-e529850c5d70",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://gorgeous-scrubs-crow.cyclic.app/api/accountingentry",
+    "url": "https://gorgeous-scrubs-crow.cyclic.app/api/accountingentry",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-12-17T06:53:46.226Z",
+    "modified": "2022-12-17T06:56:28.186Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"customerName\": \"S M BROTHER CONTRACTOR\",\n  \"epfAmount\": \"121\",\n  \"esicAmount\": \"12121\",\n  \"monthComplianceAmount\": \"12231231231\",\n  \"monthComplianceDate\": \"2022-12-17\",\n  \"otherDebit\": \"21212\",\n  \"professionalFees\": \"2121\",\n  \"remarks\": \"21\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "f5645022-b80a-40fd-8f69-05a5c594d03d",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/api/accountingentry",
+    "url": "http://localhost:8000/api/accountingentry",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-12-17T06:59:30.598Z",
+    "modified": "2022-12-17T07:27:40.429Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"customerName\": \"S M BROTHER CONTRACTOR\",\n  \"epfAmount\": \"121\",\n  \"esicAmount\": \"12121165161\",\n  \"monthComplianceAmount\": \"12231231231\",\n  \"monthComplianceDate\": \"2022-12-17\",\n  \"otherDebit\": \"0\",\n  \"professionalFees\": \"0\",\n  \"remarks\": \"21\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

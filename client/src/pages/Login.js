@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/16.jpeg";
@@ -19,6 +19,14 @@ const Login = () => {
     draggable: true,
     theme: "dark",
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt-token")) {
+      navigate("/");
+    }
+
+  }, [navigate]);
+
 
   const [values, setValues] = useState({
     email: "",

@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"
 import { registerRoute } from "../utils/ApiRoutes";
 
-const Register = () => {
+const Signup = () => {
   const navigate = useNavigate();
  
   const toastOptions = {
@@ -210,4 +210,4 @@ input {
   }
   `;
   
-  export default Register;
+  export default Signup;

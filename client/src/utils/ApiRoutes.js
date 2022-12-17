@@ -7,3 +7,7 @@ export const AccountingEntryRoute = `${host}/accountingentry`
 export const DailyReportRoute = `${host}/report/dailyreport`
 export const monthlyReportRoute = `${host}/report/monthlyreport`
 export const individualReportRoute = `${host}/report/individualreport`
+
+// authentication routes
+export const LoginRoute = `${host}/auth/login`
+export const Signup = `${host}/auth/register`

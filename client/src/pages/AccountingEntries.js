@@ -18,6 +18,7 @@ import emailjs from "@emailjs/browser";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { useNavigate } from "react-router-dom";
 
 const AccountingEntries = () => {
   const [name, setName] = useState("New EPF/ESIC Registration");
@@ -28,6 +29,15 @@ const AccountingEntries = () => {
   const handleNameChange = async (e) => {
     setName(e.target.value);
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
 
   const [customerEntry, setCustomerEntry] = useState({
     monthComplianceDate: "",
@@ -169,21 +179,21 @@ const AccountingEntries = () => {
         if (data.response) {
           console.log(data.response);
         }
+        setCustomerEntry({
+          ...customerEntry,
+          monthComplianceDate: "",
+          monthComplianceAmount: "",
+          epfAmount: "",
+          esicAmount: "",
+          otherDebit: "",
+          remarks: "Compliance For the Month/Period ",
+          professionalFees: "",
+        });
         setSendEmail(false);
       }
     }
   };
 
-  // setCustomerEntry({
-  //   ...customerEntry,
-  //   monthComplianceDate: "",
-  //   monthComplianceAmount: "",
-  //   epfAmount: "",
-  //   esicAmount: "",
-  //   otherDebit: "",
-  //   remarks: "Compliance For the Month/Period ",
-  //   professionalFees: "",
-  // });
 
   const creditedAmount = parseInt(customerEntry.monthComplianceAmount);
 
@@ -489,6 +499,10 @@ const AccountingEntries = () => {
                   <div>
                     <label className="pr-3">Email</label>
                     <input type="email" name="user_email" value={Email} />
+                  </div>
+                  <div>
+                    <label className="pr-3">Remarks</label>
+                    <input type="text" name="remarks" value={customerEntry.remarks} />
                   </div>
                 </form>
               </>

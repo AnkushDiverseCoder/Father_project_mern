@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import DatePicker from "react-datepicker";
@@ -9,6 +9,7 @@ import { DailyReportRoute } from "../utils/ApiRoutes";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import Table from "./Table";
+import { useNavigate } from "react-router-dom";
 
 const DailyReport = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -27,7 +28,14 @@ const DailyReport = () => {
     theme: "dark",
   };
 
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt-token")) {
+      navigate("/login");
+    }
+
+  }, [navigate]);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,6 +101,7 @@ const DailyReport = () => {
             <Table
               id={data._id}
               data={data}
+              title="Daily Report"
               filterData={filterData}
               setFilterData={setFilterData}
             />
