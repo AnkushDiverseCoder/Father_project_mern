@@ -34,7 +34,7 @@ export const AccountingEntryApi = async (req, res, next) => {
         representativeName: customerHeadData.representativeName,
       });
     }else{
-      return res.status(500).json({ status: false, msg: "Duplicate Entry Found In same Customer Name , Verify Before Submit " });
+      return res.status(200).json({ status: false, msg: "Duplicate Entry Found In same Customer Name , Verify Before Submit " });
     }
 
     if(sendEmailCheck){

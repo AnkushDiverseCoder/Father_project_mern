@@ -83,14 +83,10 @@ const Login = () => {
             type="password"
             placeholder="Enter your Password"
             name="password"
-            autoComplete
+            autoComplete="false"
             onChange={handleChange}
           />
           <button type="submit">Login</button>
-          <span>
-            {" "}
-            Don't Have an account ? <Link to="/signup">Signup Here</Link>{" "}
-          </span>
         </form>
       </FormContainer>
       <ToastContainer

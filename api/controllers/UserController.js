@@ -12,19 +12,17 @@ export const register = async (req, res, next) => {
       return res.json({ msg: "Username already used", status: false });
 
     // check Email
-    const emailCheck = await User.findOne({ email });www
+    const emailCheck = await User.findOne({ email })
     if (emailCheck)
       return res.json({ msg: "Email already used", status: false });
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const userData = await User.create({
+    await User.create({
       email,
       username,
       password: hashedPassword,
     });
-
-    const { password, ...user } = userData._doc;
 
     return res.status(200).json({ status: true });
   } catch (error) {
@@ -49,13 +47,27 @@ export const login = async (req, res, next) => {
     const token = jwt.sign(
       {
         user: user._id,
+        username: user.username,
+        email:user.email,
       },
-      process.env.SECRET_KEY_JWT,
-      { expiresIn: "10h" }
+      'papa',
+      { expiresIn: "4h" }
     );
 
-    return res.json({ status: true, token });
-  } catch (error) {
+    res.status(200).cookie("token",token).json({msg : "login successfully" , status: true})
+  }
+     catch (error) {
     return res.json({ msg: error.message, status: false });
+  }
+};
+
+export const verifyToken = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    const { email , username } = jwt.verify(token, 'papa');
+
+    return res.json({ email,username , msg:"true" ,status :"true" });
+  } catch (error) {
+    return res.json({ msg: error.message, status: "false" });
   }
 };

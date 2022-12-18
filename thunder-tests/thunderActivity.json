@@ -23,18 +23,51 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:8000/api/accountingentry",
-    "url": "http://localhost:8000/api/accountingentry",
-    "method": "POST",
+    "url": "http://localhost:8000/api/auth/verifyToken",
+    "method": "GET",
     "sortNum": 0,
     "created": "2022-12-17T06:59:30.598Z",
-    "modified": "2022-12-17T07:27:40.429Z",
+    "modified": "2022-12-18T05:41:40.978Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"customerName\": \"S M BROTHER CONTRACTOR\",\n  \"epfAmount\": \"121\",\n  \"esicAmount\": \"12121165161\",\n  \"monthComplianceAmount\": \"12231231231\",\n  \"monthComplianceDate\": \"2022-12-17\",\n  \"otherDebit\": \"0\",\n  \"professionalFees\": \"0\",\n  \"remarks\": \"21\"\n}",
+      "raw": "{\n  \"email\": \"bagathsingh59@gmail.com\",\n  \"username\":\"bagathsingh59\",\n  \"password\": \"Ankush@1821@tbs****\"\n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "404778c3-665e-492f-afc8-0b6ebda077f0",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/api/auth/verifyToken",
+    "url": "http://localhost:8000/api/auth/verifyToken",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-12-17T16:32:50.258Z",
+    "modified": "2022-12-17T16:32:50.258Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjM5ZGVkMjZkNjExNDgxNGJiNGE4NzBlIiwiaWF0IjoxNjcxMjk0NjcyLCJleHAiOjE2NzEzMzA2NzJ9.2moKaVKMmyAT2rzpo9EvpAYbllVF39HdhiejXL2YWPg\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "2b834e91-5707-4c4f-a895-729a0dcb5eb9",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/api/auth/verifyToken",
+    "url": "http://localhost:8000/api/customerhead/AMC CONSTRUCTION",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-12-17T16:32:53.803Z",
+    "modified": "2022-12-18T08:12:31.674Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

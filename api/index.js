@@ -6,13 +6,15 @@ import userRoute from "./routes/user.js"
 import { customerHeadRoute } from "./routes/CustomerHead.js";
 import { AccountingEntriesRoutes } from "./routes/AccountingEntry.js";
 import { DailyReportRouter } from "./routes/report.js";
+import cookieParser from "cookie-parser";
 
 // express app
 const app = express();
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cookieParser())
 dotenv.config()
 
 app.get('/',(req,res)=>{

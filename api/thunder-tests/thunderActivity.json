@@ -42,18 +42,13 @@
     "colId": "history",
     "containerId": "",
     "name": "https://vaishnaviconsultant.onrender.com/api/customerhead",
-    "url": "https://vaishnaviconsultant.onrender.com/api/customerhead",
+    "url": "http://localhost:8000/api/auth/verifytoken",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-12-01T14:38:38.968Z",
-    "modified": "2022-12-01T14:38:38.968Z",
+    "modified": "2022-12-18T03:48:44.446Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"ontactNumber\": \"161651651\",\n\"customerName\": \"asfgasfasfasfasf\",\n\"date\": \n\"2000-02-01\",\n\"email\": \n\"665165165\",\n\"epfNumber\": \n\"56161\",\n\"esicNumber\": \n\"1561561651\",\n\"professionalFees\": \n\"5616165\",\n\"remarks\": \n\"1656165165\",\n\"representativeName\": \n\"asfasfas\"\n}",
-      "form": []
-    },
     "tests": []
   },
   {
@@ -61,18 +56,13 @@
     "colId": "history",
     "containerId": "",
     "name": "localhost:8000/api/customerhead",
-    "url": "localhost:8000/api/customerhead",
-    "method": "POST",
+    "url": "localhost:8000/api/customerhead/639ed11f25e47a8cb08da595",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2022-12-01T14:40:09.270Z",
-    "modified": "2022-12-01T14:40:09.270Z",
+    "modified": "2022-12-18T09:09:27.928Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"ontactNumber\": \"161651651\",\n\"customerName\": \"asfgasfasfasfasf\",\n\"date\": \n\"2000-02-01\",\n\"email\": \n\"665165165\",\n\"epfNumber\": \n\"56161\",\n\"esicNumber\": \n\"1561561651\",\n\"professionalFees\": \n\"5616165\",\n\"remarks\": \n\"1656165165\",\n\"representativeName\": \n\"asfasfas\"\n}",
-      "form": []
-    },
     "tests": []
   }
 ]

@@ -8,6 +8,7 @@ import {
   AccountingEntryRoute,
   getCustomerEmail,
   getCustomerName,
+  verifyToken,
 } from "../utils/ApiRoutes";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -33,10 +34,16 @@ const AccountingEntries = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("jwt-token")) {
-      navigate("/login");
+    const checkUser = async() =>{
+      const token = localStorage.getItem("jwt-token").split('"')[1];
+      const { data } = await axios.post(verifyToken, {
+        token,
+      });
+      if (data.decode.email) {
+        navigate("/dashboard/applications");
+      }
     }
-
+    checkUser()
   }, [navigate]);
 
   const [customerEntry, setCustomerEntry] = useState({

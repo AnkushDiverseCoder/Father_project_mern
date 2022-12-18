@@ -1,11 +1,24 @@
 import express from "express"
-import { allCustomerName, CustomerHeadApi } from "../controllers/CustomerHeadController.js"
+import { allCustomerName, customerData, CustomerHeadApi, DeleteCustomerData, UpdateCustomerData } from "../controllers/CustomerHeadController.js"
 
 const router = express.Router()
 
 //  customerHead Creation routes
 router.post("/", CustomerHeadApi)
-//  customerHead Creation routes
+
+
+//  customerHead  Names
 router.get("/", allCustomerName)
+
+
+// get customerHead Data
+router.get("/:id", customerData )
+
+// Update customerHead Data
+router.patch("/:id", UpdateCustomerData )
+
+// Delete customerHead Data
+router.delete("/:id", DeleteCustomerData )
+
 
 export { router as customerHeadRoute}
