@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
-import cors from "cors"
-import userRoute from "./routes/user.js"
+import dotenv from "dotenv";
+import cors from "cors";
+import userRoute from "./routes/user.js";
 import { customerHeadRoute } from "./routes/CustomerHead.js";
 import { AccountingEntriesRoutes } from "./routes/AccountingEntry.js";
 import { DailyReportRouter } from "./routes/report.js";
@@ -13,13 +13,13 @@ const app = express();
 
 // middleware
 app.use(express.json());
-app.use(cors({credentials: true, origin: 'https://vcaccounts.netlify.app/'}));
-app.use(cookieParser())
-dotenv.config()
+app.use(cors());
+app.use(cookieParser());
+dotenv.config();
 
-app.get('/',(req,res)=>{
+app.get("/", (req, res) => {
   res.json("server start");
-})
+});
 
 // routes
 app.use("/api/auth", userRoute);

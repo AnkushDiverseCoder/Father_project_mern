@@ -36,9 +36,13 @@ const Table = ({
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data } = await axios.get(verifyToken,{withCredentials:true});
-      if(data.email === "bagathsingh59@gmail.com"){
-        setEmail(true)
+      const token = localStorage.getItem("token")
+      const {data}  = await axios.post(verifyToken,{
+        token
+      });
+      
+      if (data.email === "bagathsingh59@gmail.com") {
+        setEmail(true);
       }
     }
     checkUser()

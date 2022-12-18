@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // @mui
-import {  Stack, IconButton, InputAdornment, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack, IconButton, InputAdornment, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // components
-import { toast } from 'react-toastify';
-import Iconify from '../../../components/iconify';
-import { LoginRoute, verifyToken } from '../../../utils/ApiRoutes';
+import { toast } from "react-toastify";
+import Iconify from "../../../components/iconify";
+import { LoginRoute, verifyToken } from "../../../utils/ApiRoutes";
 
 // ----------------------------------------------------------------------
 
@@ -26,15 +26,16 @@ export default function LoginForm() {
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data } = await axios.get(verifyToken,{withCredentials:true})
-      if(data.status === "true"){
+      const token = localStorage.getItem("token")
+      const { data } = await axios.post(verifyToken, {
+        token
+      });
+      if (data.status === "true") {
         navigate("/dashboard/app");
       }
-    }
-    checkUser()
-
+    };
+    checkUser();
   }, [navigate]);
-
 
   const [values, setValues] = useState({
     email: "",
@@ -61,36 +62,41 @@ export default function LoginForm() {
       const { data } = await axios.post(LoginRoute, {
         email,
         password,
-      },{withCredentials: true});
+      });
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
-        (navigate("/dashboard/app"));
+        localStorage.setItem("token",data.token)
+        navigate("/dashboard/app");
       }
     }
   };
-
 
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
       <Stack spacing={3} className="mb-6">
-        <TextField name="email" label="Email address" onChange={handleChange}/>
+        <TextField name="email" label="Email address" onChange={handleChange} />
 
         <TextField
           name="password"
           label="Password"
           onChange={handleChange}
           autoComplete="false"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  <Iconify
+                    icon={showPassword ? "eva:eye-fill" : "eva:eye-off-fill"}
+                  />
                 </IconButton>
               </InputAdornment>
             ),
@@ -98,7 +104,13 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        onClick={handleSubmit}
+      >
         Login
       </LoadingButton>
     </>

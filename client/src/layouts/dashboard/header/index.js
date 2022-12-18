@@ -51,10 +51,16 @@ export default function Header({ onOpenNav }) {
 
   useEffect(() => {
     const checkUser = async () => {
-      const {data}  = await axios.get(verifyToken,{withCredentials:true});
-      setEmail(data.email)
+      const token = localStorage.getItem("token")
+      const {data}  = await axios.post(verifyToken,{
+        token
+      });
+
       if(data.status==="false"){
         navigate("/login");
+      }
+      if (data.email === "bagathsingh59@gmail.com") {
+        setEmail(data.email);
       }
     }
     checkUser()

@@ -21,18 +21,23 @@ const CustomerHeadReport = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState(false);
-
+  
   useEffect(() => {
     const checkUser = async () => {
-      const { data } = await axios.get(verifyToken, { withCredentials: true });
-      if (data.msg === "false") {
-        navigate("login");
+      const token = localStorage.getItem("token")
+      const {data}  = await axios.post(verifyToken,{
+        token
+      });
+
+      if(data.status==="false"){
+        navigate("/login");
       }
       if (data.email === "bagathsingh59@gmail.com") {
         setEmail(true);
       }
-    };
-    checkUser();
+    }
+    checkUser()
+
   }, [navigate]);
 
   const [name, setName] = useState("");
