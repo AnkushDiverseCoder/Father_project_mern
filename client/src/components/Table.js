@@ -1,18 +1,54 @@
+/* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import * as XLSX from "xlsx/xlsx.mjs";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Moment from "moment";
+import excel from "./microsoft-excel-icon.png";
+import { verifyToken } from "../utils/ApiRoutes";
 
-const Table = ({ data, filterData, setFilterData, title, remarks }) => {
-  const [search, setSearch] = useState("");
+// eslint-disable-next-line react/prop-types
+const Table = ({
+  // eslint-disable-next-line react/prop-types
+  data,
+  // eslint-disable-next-line react/prop-types
+  filterData,
+  // eslint-disable-next-line react/prop-types
+  setFilterData,
+  // eslint-disable-next-line react/prop-types
+  name,
+  // eslint-disable-next-line react/prop-types
+  remarks,
+  // eslint-disable-next-line react/prop-types
+  totalData,
+  // eslint-disable-next-line react/prop-types
+  report,
+  // eslint-disable-next-line react/prop-types
+  endDate,
+}) => {
+  
+  const [search] = useState("");
+  const [email, setEmail] = useState(false)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await axios.get(verifyToken,{withCredentials:true});
+      if(data.email === "bagathsingh59@gmail.com"){
+        setEmail(true)
+      }
+    }
+    checkUser()
+
+  }, [navigate]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react/prop-types, arrow-body-style
     const result = data.filter((customer) => {
-      return customer.customerName.toLowerCase().match(search.toLowerCase());
+      return customer?.customerName?.toLowerCase().match(search.toLowerCase());
     });
     setFilterData(result);
   }, [search, data, setFilterData]);
@@ -31,15 +67,46 @@ const Table = ({ data, filterData, setFilterData, title, remarks }) => {
     const { data } = await axios.delete(
       `https://gorgeous-scrubs-crow.cyclic.app/api/Report/${id}`
     );
+    // eslint-disable-next-line react/prop-types
     if (data.status === false) {
+      // eslint-disable-next-line react/prop-types
       toast.error(data.msg, toastOptions);
     }
+    // eslint-disable-next-line react/prop-types
     if (data.status === true) {
+      // eslint-disable-next-line react/prop-types
       toast.success(data.msg, toastOptions);
     }
   };
 
   const customStyles = {
+    table: {
+      style: {
+        backgroundColor: "#fff7cd",
+        height: "100vh",
+      },
+    },
+    header: {
+      style: {
+        backgroundColor: "#fff7cd",
+        paddingTop: "20px",
+        paddingBottom: "20px",
+        fontFamily: "Times New Roman",
+        fontWeight: "bolder",
+        color: "#b78105",
+      },
+    },
+    subHeader: {
+      style: {
+        backgroundColor: "#fff7cd",
+        minHeight: "52px",
+      },
+    },
+    tableWrapper: {
+      style: {
+        display: "table",
+      },
+    },
     headRow: {
       style: {
         border: "none",
@@ -47,114 +114,160 @@ const Table = ({ data, filterData, setFilterData, title, remarks }) => {
     },
     headCells: {
       style: {
-        color: "#202124",
+        color: "#b78105",
+        backgroundColor: "#f5e4b2",
+        border: "px solid #b78105",
         fontSize: "14px",
-        overflow:'wrap'
+        wordBreak: "break-word",
+        boxShadow:
+          " 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "16px",
+        paddingRight: "16px",
+        wordBreak: "break-word",
+      },
+      draggingStyle: {},
+    },
+    contextMenu: {
+      style: {
+        backgroundColor: "#ffe7d9",
+        fontSize: "18px",
+        fontWeight: 400,
+        paddingLeft: "16px",
+        paddingRight: "8px",
+        transform: "translate3d(0, -100%, 0)",
+        transitionDuration: "125ms",
+        transitionTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+        willChange: "transform",
+        whiteSpace: "pre-line",
+        overflowWrap: "break-word",
+      },
+      activeStyle: {
+        transform: "translate3d(0, 0, 0)",
       },
     },
     rows: {
-      highlightOnHoverStyle: {
-        backgroundColor: "rgb(230, 244, 244)",
-        borderBottomColor: "#FFFFFF",
-        borderRadius: "25px",
-        outline: "1px solid #FFFFFF",
-        overflow:'wrap'
+      style: {
+        backgroundColor: "#fff7cd",
+        padding: "10px",
       },
-      cells:{
-        style:{
-          overflow:'wrap'
-        }
-      }
+      highlightOnHoverStyle: {
+        outline: "1px solid #FFFFFF",
+        overflow: "wrap",
+      },
+      cells: {
+        style: {
+          overflow: "wrap",
+        },
+      },
     },
     pagination: {
       style: {
         border: "none",
+        backgroundColor: "#fff7cd",
       },
     },
   };
 
   const columns = [
     {
-      name: "Date",
+      name: <p className="whitespace-pre-line break-words mr-3">Date</p>,
       selector: (row) => (
-        <p>{Moment(row.monthComplianceDate).format("DD-MMMM-yyy")}</p>
+        <p>{Moment(row?.monthComplianceDate).format("DD-MMM-yyy")}</p>
       ),
       sortable: true,
     },
     {
-      name: "Customer Name",
-      selector: (row) => row.customerName,
+      name: <p className="whitespace-pre-line break-words mr-3">Customer Name</p>,
+      selector: (row) => (
+        <p className="whitespace-pre-line break-words mr-3">
+          {row?.customerName}
+        </p>
+      ),
       sortable: true,
     },
     {
-      name: "Amount Credited",
-      selector: (row) => row.monthComplianceAmount,
+      name:  <p className="whitespace-pre-line break-words mr-3">Compliance Amount</p>,
+      selector: (row) => (
+        <p className="text-green-600">
+          {row?.monthComplianceAmount.toLocaleString()}.00
+        </p>
+      ),
       sortable: true,
     },
     {
-      name: "EPF Debit",
-      selector: (row) => row.epfAmount,
+      name:  <p className="whitespace-pre-line break-words mr-3">EPF Debit</p>,
+      selector: (row) => `${row?.epfAmount.toLocaleString()}.00`,
       sortable: true,
     },
     {
-      name: "Esic Debit",
-      selector: (row) => row.esicAmount,
+      name: "ESIC Debit",
+      selector: (row) => `${row?.esicAmount.toLocaleString()}.00`,
       sortable: true,
     },
     {
-      name: "All Other Debit",
-      selector: (row) => row.otherDebit,
+      name:  <p className="whitespace-pre-line break-words mr-3">All Other Debit</p>,
+      selector: (row) => `${row?.otherDebit.toLocaleString()}.00`,
       sortable: true,
     },
     {
-      name: "Professional Fees",
-      selector: (row) => row.professionalFees,
+      name:  <p className="whitespace-pre-line break-words mr-3">Prof. Fees</p>,
+      selector: (row) => `${row?.professionalFees.toLocaleString()}.00`,
       sortable: true,
     },
     {
       name: "Total Debit",
       selector: (row) => (
-        <h1>
-          {row.epfAmount +
-            row.esicAmount +
-            row.otherDebit +
-            row.professionalFees}
+        <h1 className="text-red-600">
+          {(
+            row?.epfAmount +
+            row?.esicAmount +
+            row?.otherDebit +
+            row?.professionalFees
+          )?.toLocaleString()}
+          .00
         </h1>
       ),
       sortable: true,
     },
     {
-      name: "Net Difference",
+      name:  <p className="whitespace-pre-line break-words mr-3">Closing Balance</p>,
       selector: (row) => (
-        <h1>
-          {row.monthComplianceAmount -
+        <h1 className="text-blue-600">
+          {(
+            row.monthComplianceAmount -
             row.epfAmount -
             row.esicAmount -
             row.otherDebit -
-            row.professionalFees}
+            row.professionalFees
+          )?.toLocaleString()}
+          .00
         </h1>
       ),
       sortable: true,
     },
     {
       name: "Remarks",
-      selector: (row) => ( 
-          <p className="whitespace-pre-line break-words" >{row.remarks}</p>
+      selector: (row) => (
+        <p className="whitespace-pre-line break-words mr-3">{row?.remarks}</p>
       ),
       sortable: true,
     },
-    {
+    ...(email ? [{
       name: "Remove Entry",
       cell: (row) => (
-        // Todo the remove functionality
         <button
+          type="button"
           className="bg-red-700 p-2 rounded-lg text-white hover:scale-x-110 active:bg-green-600 active:scale-90 transition duration-150 ease-out"
           onClick={() => handleDelete(row._id)}
         >
           Remove
         </button>
       ),
-    },
+    }]:[])
   ];
 
   const downloadPdf = () => {
@@ -191,7 +304,7 @@ const Table = ({ data, filterData, setFilterData, title, remarks }) => {
         workSheet,
         "Accounting Entries Data"
       );
-  
+
       // Binary String
       XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
       // Download Excel file
@@ -228,83 +341,143 @@ const Table = ({ data, filterData, setFilterData, title, remarks }) => {
         workSheet,
         "Accounting Entries Data"
       );
-  
+
       // Binary String
       XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
       // Download Excel file
       XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
     }
-
-   
   };
 
   return (
-    <div className="bg-gray-900">
-      <DataTable
-        columns={columns}
-        data={filterData}
-        pagination
-        title={title}
-        fixedHeader
-        style={{overflow:'wrap'}}
-        fixedHeaderScrollHeight="400px"
-        highlightOnHover
-        customStyles={customStyles}
-        actions={
+    <div className="rounded-lg ">
+      { email && <div className="flex justify-between p-2 pt-10 shadow-inner shadow-transparent">
+        <div>
+          <p className=" text-[#bb777f] underline">Credited Amount Total</p>
+          <p className="text-green-600 font-bold">
+            
+            {totalData[0]?.AmountCreditedTotal?.toLocaleString()}.00
+          </p>
+        </div>
+        <div>
+          <p className=" text-[#bb777f] underline">EPF Amount Total</p>
+          <p className=" text-[#7a0b2e]">
+            {totalData[0]?.epfTotal?.toLocaleString()}.00
+          </p>
+        </div>
+        <div>
+          <p className=" text-[#bb777f] underline">ESIC Amount Total</p>
+          <p className=" text-[#7a0b2e]">
+            {totalData[0]?.esicTotal?.toLocaleString()}.00
+          </p>
+        </div>
+        <div>
+          <p className=" text-[#bb777f] underline">Other Debit Total</p>
+          <p className=" text-[#7a0b2e]">
+            {totalData[0]?.otherTotal?.toLocaleString()}.00
+          </p>
+        </div>
+        {/* Display Only to Papa */}
+        <div>
+          <p className=" text-[#bb777f] underline">Professional Fees Total</p>
+          <p className=" text-[#7a0b2e]">
+            {totalData[0]?.professionalFeesTotal?.toLocaleString()}.00
+          </p>
+        </div>
+        <div>
+          <p className=" text-[#bb777f] underline">Total Debit</p>
+          <p className=" text-red-600 font-bold">
+            {(
+              totalData[0]?.epfTotal +
+              totalData[0]?.esicTotal +
+              totalData[0]?.otherTotal +
+              totalData[0]?.professionalFeesTotal
+            )?.toLocaleString()}
+            .00
+          </p>
+        </div>
+        <div>
+          <p className=" text-[#bb777f] underline">Closing Balance</p>
+          <p className=" text-blue-600 font-bold">
+            {(
+              totalData[0]?.AmountCreditedTotal -
+              (totalData[0]?.epfTotal +
+                totalData[0]?.esicTotal +
+                totalData[0]?.otherTotal +
+                totalData[0]?.professionalFeesTotal)
+            )?.toLocaleString()}
+            .00
+          </p>
+        </div>
+      </div>}
+
+      {/*  */}
+      <div className="rounded-lg pt-5 shadow-lg ">
+        <div className="flex justify-between p-3 bg-[#fff7cd] text-[#b78105]">
+          <h1 className="">
+            {report === "historicalReport" ? (
+              <>{`Cashflow Report During The Period From: \u00A0\u00A0`}</>
+            ) : (
+              <>Cashflow Report For : </>
+            )}
+            {report === "historicalReport" && (
+              <>
+                <span className="underline font-bold text-xl italic text-green-600">
+                  {" "}
+                  {` ${Moment(name)?.format("DD-MMMM-yyy")} \u00A0`}
+                </span>
+                <span className="underline font-bold text-xl italic text-blue-400">
+                  to{" "}
+                </span>
+                <span className="underline font-bold text-xl italic text-red-600">
+                  {" "}
+                  {` ${Moment(endDate)?.format("DD-MMMM-yyy")}`}
+                </span>
+              </>
+            )}
+            {report === "daily" && (
+              <span className="underline font-bold text-xl italic">
+                {" "}
+                {Moment(name)?.format("DD-MMMM-yyy")} (
+                {Moment(name)?.format("dddd")})
+              </span>
+            )}
+            {report === "individual" && (
+              <span className="underline font-bold text-xl italic">{name}</span>
+            )}
+          </h1>
           <button
-            className="bg-blue-600 p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out"
+            type="button"
+            className="p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out w-10"
             onClick={downloadPdf}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m-6 3.75l3 3m0 0l3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25h-7.5a2.25 2.25 0 01-2.25-2.25v-.75"
-              />
-            </svg>
+            <img src={excel} alt="" />
           </button>
-        }
-        subHeader
-        subHeaderComponent={
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="filled-basic"
-              label="Search AccountEntry "
-              variant="filled"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Box>
-        }
-        subHeaderAlign="left"
-      />
+        </div>
+        <DataTable
+          columns={columns}
+          data={filterData}
+          pagination
+          fixedHeader
+          fixedHeaderScrollHeight="400px"
+          highlightOnHover
+          customStyles={customStyles}
+          subHeaderAlign="left"
+        />
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      </div>
     </div>
   );
 };

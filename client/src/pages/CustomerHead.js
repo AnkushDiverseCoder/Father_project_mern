@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { CustomerHeadRoute } from "../utils/ApiRoutes";
 import { useNavigate } from "react-router-dom";
+import { CustomerHeadRoute, verifyToken } from "../utils/ApiRoutes";
 
 const CustomerHead = () => {
   const [customerData, setCustomerData] = useState({
@@ -20,12 +18,19 @@ const CustomerHead = () => {
   });
 
   const navigate = useNavigate();
+  const [email, setEmail] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("jwt-token")) {
-      navigate("/login");
-    }
-
+    const checkUser = async () => {
+      const { data } = await axios.get(verifyToken, { withCredentials: true });
+      if (data.msg === "false") {
+        navigate("login");
+      }
+      if (data.email === "bagathsingh59@gmail.com") {
+        setEmail(true);
+      }
+    };
+    checkUser();
   }, [navigate]);
 
   const toastOptions = {
@@ -49,7 +54,6 @@ const CustomerHead = () => {
     const { customerName, contactNumber, date } = customerData;
     if (customerName === "") {
       toast.error("Customer Name is required", toastOptions);
-      return false;
     } else if (contactNumber === "") {
       toast.error("ContactNumber is required", toastOptions);
       return false;
@@ -104,26 +108,24 @@ const CustomerHead = () => {
     }
   };
 
+  const navigateToCustomerHeadReport = () => {
+    navigate("/dashboard/customerHeadReport");
+  };
+
   return (
     <>
-      <Navbar />
-      <div className="h-screen md:flex">
-        {/* Left Side Div */}
-        <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden"></div>
-
-        {/* Right Side Div */}
-        <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
-          <form className="bg-white" onSubmit={handleSubmit}>
-            <h1 className="text-gray-800 font-bold text-2xl mb-1">
-              Hello Again!
-            </h1>
-            <p className="text-sm font-normal text-gray-600 mb-7">
-              Create CustomerHead Here
-            </p>
+      <div className="w-full md:flex">
+        <div className="flex justify-center py-10 items-center mx-auto">
+          <form onSubmit={handleSubmit}>
+            <div className="">
+              <h1 className="text-gray-800 font-bold text-2xl mb-7">
+                Customer Head Entry Done Here!
+              </h1>
+            </div>
 
             {/* first Box */}
-            <div className="flex">
-              <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+            <div className="flex gap-6">
+              <div className="flex items-center border-2 py-3 px-3 rounded-2xl mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-gray-400"
@@ -137,7 +139,7 @@ const CustomerHead = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="text"
                   name="customerName"
                   value={customerData.customerName}
@@ -160,7 +162,7 @@ const CustomerHead = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="text"
                   name="representativeName"
                   onChange={handleChange}
@@ -172,7 +174,7 @@ const CustomerHead = () => {
             </div>
 
             {/* Second Box */}
-            <div className="flex">
+            <div className="flex gap-6">
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +191,7 @@ const CustomerHead = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="text"
                   name="epfNumber"
                   value={customerData.epfNumber}
@@ -215,7 +217,7 @@ const CustomerHead = () => {
                 </svg>
 
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="Number"
                   name="esicNumber"
                   value={customerData.esicNumber}
@@ -226,8 +228,8 @@ const CustomerHead = () => {
               </div>
             </div>
 
-            {/*Third Box */}
-            <div className="flex">
+            {/* Third Box */}
+            <div className="flex gap-6">
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +247,7 @@ const CustomerHead = () => {
                 </svg>
 
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="Number"
                   name="contactNumber"
                   onChange={handleChange}
@@ -270,7 +272,7 @@ const CustomerHead = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 outline-none border-none bg-transparent"
+                  className="pl-2 outline-none border-none bg-transparent w-full text-w-full"
                   type="date"
                   name="date"
                   onChange={handleChange}
@@ -282,7 +284,7 @@ const CustomerHead = () => {
             </div>
 
             {/* Fourth Box */}
-            <div className="flex">
+            <div className="flex gap-6">
               <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -299,7 +301,7 @@ const CustomerHead = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 outline-none border-none"
+                  className="pl-2 outline-none border-none bg-inherit"
                   type="email "
                   name="email"
                   value={customerData.email}
@@ -325,7 +327,7 @@ const CustomerHead = () => {
                 </svg>
 
                 <input
-                  className="pl-2 outline-none border-none w-full"
+                  className="pl-2 outline-none border-none w-full bg-inherit"
                   type="text"
                   name="remarks"
                   autoComplete="off"
@@ -338,14 +340,22 @@ const CustomerHead = () => {
 
             <button
               type="submit"
-              className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+              className="block w-full bg-green-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
             >
               Save The Customer Head
             </button>
+            {email && (
+              <button
+                type="button"
+                onClick={navigateToCustomerHeadReport}
+                className="block w-full bg-[#fed7aa] mt-4 py-2 rounded-2xl text-[#ab4f2d] font-semibold mb-2"
+              >
+                Modify The Customer Head
+              </button>
+            )}
           </form>
         </div>
       </div>
-      <Footer />
       <ToastContainer />
     </>
   );
