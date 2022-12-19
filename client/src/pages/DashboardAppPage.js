@@ -37,7 +37,7 @@ useEffect(()=>{
     setTotalShortAmount(TotalShortData.data.AmountShortTotal)  
   }
   getData()
-},[TotalCreditAmount,TotalDebitAmount,TotalExcessAmount,TotalShortAmount])
+},[])
 
 
   useEffect(() => {
