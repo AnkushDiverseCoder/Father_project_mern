@@ -10,18 +10,35 @@ import {
   AppCurrentVisits,
   AppWebsiteVisits,
   AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
 } from "../sections/@dashboard/app";
-import { verifyToken } from "../utils/ApiRoutes";
+import { TotalCreditAmount, TotalDebitAmount, TotalExcessAmount, TotalShortAmount, verifyToken } from "../utils/ApiRoutes";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState(null)
+  const [CreditAmount, setTotalCreditAmount] = useState(null)
+  const [DebitAmount, setTotalDebitAmount] = useState(null)
+  const [ExcessAmount, setTotalExcessAmount] = useState(null)
+  const [ShortAmount, setTotalShortAmount] = useState(null)
 
   const navigate = useNavigate();
+
+useEffect(()=>{
+  const getData = async () => {
+    const TotalCreditData = await axios.get(TotalCreditAmount)
+    const TotalDebitData = await axios.get(TotalDebitAmount)
+    const TotalExcessData = await axios.get(TotalExcessAmount)
+    const TotalShortData = await axios.get(TotalShortAmount)
+    setTotalCreditAmount(TotalCreditData?.data.AmountCreditedTotal)
+    setTotalDebitAmount(TotalDebitData.data.AmountDebitTotal)
+    setTotalExcessAmount(TotalExcessData.data.AmountExcessTotal)
+    setTotalShortAmount(TotalShortData.data.AmountShortTotal)  
+  }
+  getData()
+},[TotalCreditAmount,TotalDebitAmount,TotalExcessAmount,TotalShortAmount])
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -54,7 +71,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Total Credited Amount"
-              total={714000}
+              total={CreditAmount}
               icon={"ant-design:android-filled"}
             />
           </Grid>
@@ -62,7 +79,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Total Debit Amount"
-              total={1352831}
+              total={DebitAmount}
               color="info"
               icon={"ant-design:apple-filled"}
             />
@@ -72,7 +89,7 @@ export default function DashboardAppPage() {
             <AppWidgetSummary
             // Total NetDifference In +ve
             title="Total Excess Amount"
-            total={1723315}
+            total={ExcessAmount}
             color="warning"
             icon={"ant-design:windows-filled"}
             />
@@ -82,7 +99,7 @@ export default function DashboardAppPage() {
             <AppWidgetSummary
             // Total NetDifference In -ve
               title="Total Short Amount"
-              total={234}
+              total={ShortAmount}
               color="error"
               icon={"ant-design:bug-filled"}
             />

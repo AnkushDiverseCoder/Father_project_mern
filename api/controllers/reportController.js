@@ -16,7 +16,7 @@ export const dailyReportController = async (req, res) => {
           AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
           epfTotal: { $sum: "$epfAmount" },
           esicTotal: { $sum: "$esicAmount" },
-          otherTotal: { $sum: "$otherDebit" },
+          otherTotal: { $sum: "$otherDebit" }, 
           professionalFeesTotal: { $sum: "$professionalFees" },
         },
       },

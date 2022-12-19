@@ -7,6 +7,7 @@ import { customerHeadRoute } from "./routes/CustomerHead.js";
 import { AccountingEntriesRoutes } from "./routes/AccountingEntry.js";
 import { DailyReportRouter } from "./routes/report.js";
 import cookieParser from "cookie-parser";
+import { DashboardRoute } from "./routes/Dashboard.js";
 
 // express app
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/auth", userRoute);
 app.use("/api/customerhead", customerHeadRoute);
 app.use("/api/accountingentry", AccountingEntriesRoutes);
 app.use("/api/report", DailyReportRouter);
+app.use("/api/dashboard", DashboardRoute);
 
 // connect to db
 mongoose
