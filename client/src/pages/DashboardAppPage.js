@@ -47,7 +47,7 @@ useEffect(()=>{
         token
       });
       setUsername(data.username)
-
+      console.log(data.username)
       if(data.status==="false"){
         navigate("/login");
       }

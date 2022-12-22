@@ -1,14 +1,36 @@
 import { AccountingEntry } from "../models/AccountingEntryModel.js";
 
-// daily report
-export const dailyReportController = async (req, res) => {
+// monthlyReport
+export const CustomerReportController = async (req, res) => {
   try {
-    const data = await AccountingEntry.find({
-      monthComplianceDate: new Date(req.body.date),
-    });
+    const data = await AccountingEntry.aggregate([
+      {
+        $match: {
+          monthComplianceDate: {
+            $gte: new Date(req.body.startDateFormated),
+            $lte: new Date(req.body.endDateFormated),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$customerName",
+          AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+          epfAmount: { $sum: "$epfAmount" },
+          esicAmount: { $sum: "$esicAmount" },
+          otherDebit: { $sum: "$otherDebit" },
+          professionalFees: { $sum: "$professionalFees" },
+        },
+      },
+    ]);
     const TotalData = await AccountingEntry.aggregate([
       {
-        $match: { monthComplianceDate: new Date(req.body.date) },
+        $match: {
+          monthComplianceDate: {
+            $gte: new Date(req.body.startDateFormated),
+            $lte: new Date(req.body.endDateFormated),
+          },
+        },
       },
       {
         $group: {
@@ -16,13 +38,13 @@ export const dailyReportController = async (req, res) => {
           AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
           epfTotal: { $sum: "$epfAmount" },
           esicTotal: { $sum: "$esicAmount" },
-          otherTotal: { $sum: "$otherDebit" }, 
+          otherTotal: { $sum: "$otherDebit" },
           professionalFeesTotal: { $sum: "$professionalFees" },
         },
       },
     ]);
 
-    res.status(200).json({ status: true, msg: data, TotalData: TotalData });
+    res.status(200).json({ status: true, msg: data , TotalData: TotalData});
   } catch (error) {
     res.json({ status: false, msg: error.message });
   }

@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/system";
-import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Box, TextField } from "@mui/material";
 import DataTable from "react-data-table-component";
 import * as XLSX from "xlsx/xlsx.mjs";
 import axios from "axios";
@@ -12,7 +11,7 @@ import excel from "./microsoft-excel-icon.png";
 import { verifyToken } from "../utils/ApiRoutes";
 
 // eslint-disable-next-line react/prop-types
-const Table = ({
+const HistoricalTable = ({
   // eslint-disable-next-line react/prop-types
   data,
   // eslint-disable-next-line react/prop-types
@@ -30,34 +29,33 @@ const Table = ({
   // eslint-disable-next-line react/prop-types
   endDate,
 }) => {
-  
-  const [search,setSearch] = useState("");
-  const [email, setEmail] = useState(false)
-
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const token = localStorage.getItem("token")
-      const {data}  = await axios.post(verifyToken,{
-        token
-      });
-      
-      if (data.email === "bagathsingh59@gmail.com") {
-        setEmail(true);
-      }
-    }
-    checkUser()
-
-  }, [navigate]);
+  const [email, setEmail] = useState(false);
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     // eslint-disable-next-line react/prop-types, arrow-body-style
     const result = data.filter((customer) => {
-      return customer?.customerName?.toLowerCase().match(search.toLowerCase());
+      return customer._id.toLowerCase().match(search.toLowerCase());
     });
     setFilterData(result);
   }, [search, data, setFilterData]);
+
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(verifyToken, {
+        token,
+      });
+
+      if (data.email === "bagathsingh59@gmail.com") {
+        setEmail(true);
+      }
+    };
+    checkUser();
+  }, [navigate]);
+
 
   const toastOptions = {
     position: "bottom-center",
@@ -180,32 +178,29 @@ const Table = ({
 
   const columns = [
     {
-      name: <p className="whitespace-pre-line break-words mr-3">Date</p>,
+      name: (
+        <p className="whitespace-pre-line break-words mr-3">Customer Name</p>
+      ),
       selector: (row) => (
-        <p>{Moment(row?.monthComplianceDate).format("DD-MMM-yyy")}</p>
+        <p className="whitespace-pre-line break-words mr-3">{row?._id}</p>
       ),
       sortable: true,
     },
     {
-      name: <p className="whitespace-pre-line break-words mr-3">Customer Name</p>,
-      selector: (row) => (
+      name: (
         <p className="whitespace-pre-line break-words mr-3">
-          {row?.customerName}
+          Compliance Amount
         </p>
       ),
-      sortable: true,
-    },
-    {
-      name:  <p className="whitespace-pre-line break-words mr-3">Compliance Amount</p>,
       selector: (row) => (
         <p className="text-green-600">
-          {row?.monthComplianceAmount.toLocaleString()}.00
+          {row?.AmountCreditedTotal.toLocaleString()}.00
         </p>
       ),
       sortable: true,
     },
     {
-      name:  <p className="whitespace-pre-line break-words mr-3">EPF Debit</p>,
+      name: <p className="whitespace-pre-line break-words mr-3">EPF Debit</p>,
       selector: (row) => `${row?.epfAmount.toLocaleString()}.00`,
       sortable: true,
     },
@@ -215,12 +210,14 @@ const Table = ({
       sortable: true,
     },
     {
-      name:  <p className="whitespace-pre-line break-words mr-3">All Other Debit</p>,
+      name: (
+        <p className="whitespace-pre-line break-words mr-3">All Other Debit</p>
+      ),
       selector: (row) => `${row?.otherDebit.toLocaleString()}.00`,
       sortable: true,
     },
     {
-      name:  <p className="whitespace-pre-line break-words mr-3">Prof. Fees</p>,
+      name: <p className="whitespace-pre-line break-words mr-3">Prof. Fees</p>,
       selector: (row) => `${row?.professionalFees.toLocaleString()}.00`,
       sortable: true,
     },
@@ -240,11 +237,13 @@ const Table = ({
       sortable: true,
     },
     {
-      name:  <p className="whitespace-pre-line break-words mr-3">Closing Balance</p>,
+      name: (
+        <p className="whitespace-pre-line break-words mr-3">Closing Balance</p>
+      ),
       selector: (row) => (
         <h1 className="text-blue-600">
           {(
-            row.monthComplianceAmount -
+            row.AmountCreditedTotal -
             row.epfAmount -
             row.esicAmount -
             row.otherDebit -
@@ -255,37 +254,33 @@ const Table = ({
       ),
       sortable: true,
     },
-    {
-      name: "Remarks",
-      selector: (row) => (
-        <p className="whitespace-pre-line break-words mr-3">{row?.remarks}</p>
-      ),
-      sortable: true,
-    },
-    ...(email ? [{
-      name: "Remove Entry",
-      cell: (row) => (
-        <button
-          type="button"
-          className="bg-red-700 p-2 rounded-lg text-white hover:scale-x-110 active:bg-green-600 active:scale-90 transition duration-150 ease-out"
-          onClick={() => handleDelete(row._id)}
-        >
-          Remove
-        </button>
-      ),
-    }]:[])
+    ...(email
+      ? [
+          {
+            name: "Remove Entry",
+            cell: (row) => (
+              <button
+                type="button"
+                className="bg-red-700 p-2 rounded-lg text-white hover:scale-x-110 active:bg-green-600 active:scale-90 transition duration-150 ease-out"
+                onClick={() => handleDelete(row._id)}
+              >
+                Remove
+              </button>
+            ),
+          },
+        ]
+      : []),
   ];
 
   const downloadPdf = () => {
     if (remarks) {
       const exportExcel = data.map((item, i) => ({
         SNo: i,
-        Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
-        Customer_Name: item.customerName,
-        Representative_Name: item.representativeName,
-        Contact_Number: item.contactNumber,
-        Email: item.email,
-        Amount_Credited: item.monthComplianceAmount,
+        Customer_Name: item._id,
+        // Representative_Name: item.representativeName,
+        // Contact_Number: item.contactNumber,
+        // Email: item.email,
+        Amount_Credited: item.AmountCreditedTotal,
         EPF_Debit: item.epfAmount,
         ESIC_Debit: item.esicAmount,
         Other_Debit: item.otherDebit,
@@ -296,12 +291,11 @@ const Table = ({
           item.otherDebit +
           item.professionalFees,
         Net_Difference:
-          item.monthComplianceAmount -
+          item.AmountCreditedTotal -
           item.epfAmount -
           item.otherDebit -
           item.esicAmount -
           item.professionalFees,
-        remarks: item.remarks,
       }));
       const workSheet = XLSX.utils.json_to_sheet(exportExcel);
       const workBook = XLSX.utils.book_new();
@@ -318,8 +312,7 @@ const Table = ({
     } else {
       const exportExcel = data.map((item, i) => ({
         SNo: i,
-        Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
-        Customer_Name: item.customerName,
+        Customer_Name: name,
         Representative_Name: item.representativeName,
         Contact_Number: item.contactNumber,
         Email: item.email,
@@ -357,65 +350,66 @@ const Table = ({
 
   return (
     <div className="rounded-lg ">
-      { email && <div className="flex justify-between p-2 pt-10 shadow-inner shadow-transparent">
-        <div>
-          <p className=" text-[#bb777f] underline">Credited Amount Total</p>
-          <p className="text-green-600 font-bold">
-            
-            {totalData[0]?.AmountCreditedTotal?.toLocaleString()}.00
-          </p>
-        </div>
-        <div>
-          <p className=" text-[#bb777f] underline">EPF Amount Total</p>
-          <p className=" text-[#7a0b2e]">
-            {totalData[0]?.epfTotal?.toLocaleString()}.00
-          </p>
-        </div>
-        <div>
-          <p className=" text-[#bb777f] underline">ESIC Amount Total</p>
-          <p className=" text-[#7a0b2e]">
-            {totalData[0]?.esicTotal?.toLocaleString()}.00
-          </p>
-        </div>
-        <div>
-          <p className=" text-[#bb777f] underline">Other Debit Total</p>
-          <p className=" text-[#7a0b2e]">
-            {totalData[0]?.otherTotal?.toLocaleString()}.00
-          </p>
-        </div>
-        {/* Display Only to Papa */}
-        <div>
-          <p className=" text-[#bb777f] underline">Professional Fees Total</p>
-          <p className=" text-[#7a0b2e]">
-            {totalData[0]?.professionalFeesTotal?.toLocaleString()}.00
-          </p>
-        </div>
-        <div>
-          <p className=" text-[#bb777f] underline">Total Debit</p>
-          <p className=" text-red-600 font-bold">
-            {(
-              totalData[0]?.epfTotal +
-              totalData[0]?.esicTotal +
-              totalData[0]?.otherTotal +
-              totalData[0]?.professionalFeesTotal
-            )?.toLocaleString()}
-            .00
-          </p>
-        </div>
-        <div>
-          <p className=" text-[#bb777f] underline">Closing Balance</p>
-          <p className=" text-blue-600 font-bold">
-            {(
-              totalData[0]?.AmountCreditedTotal -
-              (totalData[0]?.epfTotal +
+      {email && (
+        <div className="flex justify-between p-2 pt-10 shadow-inner shadow-transparent">
+          <div>
+            <p className=" text-[#bb777f] underline">Credited Amount Total</p>
+            <p className="text-green-600 font-bold">
+              {totalData[0]?.AmountCreditedTotal?.toLocaleString()}.00
+            </p>
+          </div>
+          <div>
+            <p className=" text-[#bb777f] underline">EPF Amount Total</p>
+            <p className=" text-[#7a0b2e]">
+              {totalData[0]?.epfTotal?.toLocaleString()}.00
+            </p>
+          </div>
+          <div>
+            <p className=" text-[#bb777f] underline">ESIC Amount Total</p>
+            <p className=" text-[#7a0b2e]">
+              {totalData[0]?.esicTotal?.toLocaleString()}.00
+            </p>
+          </div>
+          <div>
+            <p className=" text-[#bb777f] underline">Other Debit Total</p>
+            <p className=" text-[#7a0b2e]">
+              {totalData[0]?.otherTotal?.toLocaleString()}.00
+            </p>
+          </div>
+          {/* Display Only to Papa */}
+          <div>
+            <p className=" text-[#bb777f] underline">Professional Fees Total</p>
+            <p className=" text-[#7a0b2e]">
+              {totalData[0]?.professionalFeesTotal?.toLocaleString()}.00
+            </p>
+          </div>
+          <div>
+            <p className=" text-[#bb777f] underline">Total Debit</p>
+            <p className=" text-red-600 font-bold">
+              {(
+                totalData[0]?.epfTotal +
                 totalData[0]?.esicTotal +
                 totalData[0]?.otherTotal +
-                totalData[0]?.professionalFeesTotal)
-            )?.toLocaleString()}
-            .00
-          </p>
+                totalData[0]?.professionalFeesTotal
+              )?.toLocaleString()}
+              .00
+            </p>
+          </div>
+          <div>
+            <p className=" text-[#bb777f] underline">Closing Balance</p>
+            <p className=" text-blue-600 font-bold">
+              {(
+                totalData[0]?.AmountCreditedTotal -
+                (totalData[0]?.epfTotal +
+                  totalData[0]?.esicTotal +
+                  totalData[0]?.otherTotal +
+                  totalData[0]?.professionalFeesTotal)
+              )?.toLocaleString()}
+              .00
+            </p>
+          </div>
         </div>
-      </div>}
+      )}
 
       {/*  */}
       <div className="rounded-lg pt-5 shadow-lg ">
@@ -468,7 +462,6 @@ const Table = ({
           fixedHeaderScrollHeight="400px"
           highlightOnHover
           customStyles={customStyles}
-          subHeaderAlign="left"
           subHeader
           subHeaderComponent={
             <Box
@@ -488,6 +481,7 @@ const Table = ({
               />
             </Box>
           }
+          subHeaderAlign="left"
         />
 
         <ToastContainer
@@ -507,4 +501,10 @@ const Table = ({
   );
 };
 
-export default Table;
+export default HistoricalTable;
+
+
+
+
+
+

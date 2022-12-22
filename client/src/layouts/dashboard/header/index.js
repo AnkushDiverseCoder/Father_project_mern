@@ -59,9 +59,7 @@ export default function Header({ onOpenNav }) {
       if(data.status==="false"){
         navigate("/login");
       }
-      if (data.email === "bagathsingh59@gmail.com") {
         setEmail(data.email);
-      }
     }
     checkUser()
 

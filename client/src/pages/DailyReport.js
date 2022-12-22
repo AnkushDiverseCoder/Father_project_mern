@@ -1,3 +1,6 @@
+// "Never Think I Have Nothing , Never Think I Have Everything ,
+// But Always Think I Have Something And I Can Achieve
+// Anything..."
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -6,11 +9,12 @@ import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import HistoricalTable from "../components/HistoricalTable";
 import { DailyReportRoute, verifyToken } from "../utils/ApiRoutes";
-import Table from "../components/Table";
 
-const DailyReport = () => {
+const HistoricalReport = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [filterData, setFilterData] = useState([]);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState([]);
@@ -45,59 +49,70 @@ const DailyReport = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const date = format(startDate, "yyyy-MM-dd");
-    const res = await axios.post(DailyReportRoute, { date });
+    const startDateFormated = format(startDate, "yyyy-MM-dd");
+    const endDateFormated = format(endDate, "yyyy-MM-dd");
+    const res = await axios.post(DailyReportRoute, {
+      startDateFormated,
+      endDateFormated,
+    });
 
     if (res.data.status === false) {
       toast.error(data.msg, toastOptions);
     }
     if (res.data.status === true) {
-      setFilterData(data);
+      setFilterData(res.data.msg);
       toast.success("data received", toastOptions);
       setData(res.data.msg);
-      console.log(data);
+      console.log(res.data.msg)
       setTotalData(res.data.TotalData);
       setOpenTable(true);
     }
   };
-
-  const handleOnchange = (e) => {
-    setStartDate(e);
-  };
-
   return (
     <>
       <div className="bg-[#ffe7d9] w-[100%] shadow-md hover:shadow-xl rounded-lg">
-        <section className="text-[#7a0b2e] body-font">
+      <section className="text-[#7a0b2e] body-font">
           <div className="px-5 pt-20 pb-10 mx-auto shadow-lg">
             <div className="lg:w-2/3 flex flex-col sm:flex-row sm:items-center items-start mx-auto ">
               <div>
-                <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font shadow-xl mb-6 p-2">
-                  "Never Think I Have Nothing , Never Think I Have Everything ,
-                  But Always Think I Have Something And I Can Achieve
-                  Anything..."
-                </h1>
-                <div className="flex-col w-full justify-center items-center lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
-                  <div>
-                    <DatePicker
-                      name="invoiceDate"
-                      type="text"
-                      size="sm"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      onChange={handleOnchange}
-                      className="flex-shrink-0 ml-auto mb-3 lg:mb-0 text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
+
+              <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font  shadow-2xl mb-6 p-2">
+                "If an Egg is Broken by an Outside Force Life Ends , If Broken by
+                an Inside Force , Life Begins Great Thinks always from
+                Inside..."
+              </h1>
+              <div className="sm:flex-col w-full m-auto lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
+                <div>
+                  <DatePicker
+                    name="invoiceDate"
+                    type="text"
+                    size="sm"
+                    selected={startDate}
+                    dateFormat="dd/MM/yyyy"
+                    onChange={(e) => setStartDate(e)}
+                    className="flex-shrink-0 ml-auto mb-3 lg:mb-0 mr-2  text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
                     />
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
-                      onClick={handleSubmit}
-                    >
-                      submit
-                    </button>
-                  </div>
+                </div>
+                <div>
+                  <DatePicker
+                    name="invoiceDate"
+                    type="text"
+                    size="sm"
+                    selected={endDate}
+                    dateFormat="dd/MM/yyyy"
+                    onChange={(e) => setEndDate(e)}
+                    className="flex-shrink-0 ml-auto mb-3  lg:mb-0 text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
+                    />
+                </div>
+                <div>
+                  <button
+                  type="button"
+                  className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
+                  onClick={handleSubmit}
+                  >
+                    submit
+                  </button>
+                    </div>
                 </div>
               </div>
             </div>
@@ -105,21 +120,19 @@ const DailyReport = () => {
         </section>
         {openTable && (
           <div className="rounded-lg">
-            <Table
+            <HistoricalTable
               id={data._id}
               data={data}
-              remarks="true"
+              remarks='true'
               filterData={filterData}
               name={startDate}
-              report="daily"
+              endDate={endDate}
+              report='historicalReport'
               totalData={totalData}
               setFilterData={setFilterData}
             />
-            {console.log(data)}
           </div>
         )}
-
-        {/*  Displaying the total data  */}
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -137,4 +150,10 @@ const DailyReport = () => {
   );
 };
 
-export default DailyReport;
+export default HistoricalReport;
+
+
+
+
+
+
