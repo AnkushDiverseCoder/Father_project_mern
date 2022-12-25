@@ -1,5 +1,5 @@
 import express from "express"
-import { CreditTotal, ExcessAmount, ShortAmount, TotalDebit } from "../controllers/DashboardController.js"
+import { ChartData, CreditTotal, ExcessAmount, ShortAmount, TotalDebit, compilanceAmount, otherDebit } from "../controllers/DashboardController.js"
 
 const router = express.Router()
 
@@ -14,6 +14,15 @@ router.get('/ExcessAmount', ExcessAmount)
 
 // ShortAmount
 router.get('/ShortAmount', ShortAmount)
+
+// ShortAmount
+router.get('/Compliance', compilanceAmount)
+
+// OtherDebit Amount
+router.get('/otherDebit', otherDebit)
+
+// Chart Amount
+router.get('/chartData/:date', ChartData)
 
 
 

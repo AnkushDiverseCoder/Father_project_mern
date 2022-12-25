@@ -72,7 +72,7 @@ const HistoricalReport = () => {
             <div className="lg:w-2/3 flex flex-col sm:flex-row sm:items-center items-start mx-auto ">
               <div>
 
-              <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font  shadow-2xl mb-6 p-2">
+              <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font  shadow-2xl mb-6 p-2 pt-5">
                 "If an Egg is Broken by an Outside Force Life Ends , If Broken by
                 an Inside Force , Life Begins Great Thinks always from
                 Inside..."

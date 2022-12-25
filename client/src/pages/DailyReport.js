@@ -1,6 +1,3 @@
-// "Never Think I Have Nothing , Never Think I Have Everything ,
-// But Always Think I Have Something And I Can Achieve
-// Anything..."
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -34,17 +31,16 @@ const HistoricalReport = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const token = localStorage.getItem("token")
-      const {data}  = await axios.post(verifyToken,{
-        token
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(verifyToken, {
+        token,
       });
 
-      if(data.status==="false"){
+      if (data.status === "false") {
         navigate("/login");
       }
-    }
-    checkUser()
-
+    };
+    checkUser();
   }, [navigate]);
 
   const handleSubmit = async (e) => {
@@ -63,7 +59,7 @@ const HistoricalReport = () => {
       setFilterData(res.data.msg);
       toast.success("data received", toastOptions);
       setData(res.data.msg);
-      console.log(res.data.msg)
+      console.log(res.data.msg);
       setTotalData(res.data.TotalData);
       setOpenTable(true);
     }
@@ -71,48 +67,47 @@ const HistoricalReport = () => {
   return (
     <>
       <div className="bg-[#ffe7d9] w-[100%] shadow-md hover:shadow-xl rounded-lg">
-      <section className="text-[#7a0b2e] body-font">
+        <section className="text-[#7a0b2e] body-font">
           <div className="px-5 pt-20 pb-10 mx-auto shadow-lg">
             <div className="lg:w-2/3 flex flex-col sm:flex-row sm:items-center items-start mx-auto ">
               <div>
-
-              <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font  shadow-2xl mb-6 p-2">
-                "If an Egg is Broken by an Outside Force Life Ends , If Broken by
-                an Inside Force , Life Begins Great Thinks always from
-                Inside..."
-              </h1>
-              <div className="sm:flex-col w-full m-auto lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
-                <div>
-                  <DatePicker
-                    name="invoiceDate"
-                    type="text"
-                    size="sm"
-                    selected={startDate}
-                    dateFormat="dd/MM/yyyy"
-                    onChange={(e) => setStartDate(e)}
-                    className="flex-shrink-0 ml-auto mb-3 lg:mb-0 mr-2  text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
+                <h1 className="flex-grow sm:pr-16 text-2xl font-medium title-font  shadow-2xl mb-6 p-2 pt-5">
+                  "Never Think I Have Nothing , Never Think I Have Everything ,
+                  But Always Think I Have Something And I Can Achieve
+                  Anything..."
+                </h1>
+                <div className="sm:flex-col w-full m-auto lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
+                  <div>
+                    <DatePicker
+                      name="invoiceDate"
+                      type="text"
+                      size="sm"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={(e) => setStartDate(e)}
+                      className="flex-shrink-0 ml-auto mb-3 lg:mb-0 mr-2  text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
                     />
-                </div>
-                <div>
-                  <DatePicker
-                    name="invoiceDate"
-                    type="text"
-                    size="sm"
-                    selected={endDate}
-                    dateFormat="dd/MM/yyyy"
-                    onChange={(e) => setEndDate(e)}
-                    className="flex-shrink-0 ml-auto mb-3  lg:mb-0 text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
+                  </div>
+                  <div>
+                    <DatePicker
+                      name="invoiceDate"
+                      type="text"
+                      size="sm"
+                      selected={endDate}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={(e) => setEndDate(e)}
+                      className="flex-shrink-0 ml-auto mb-3  lg:mb-0 text-[#ffe7d9] bg-[#b46c77] border-0 py-2 px-8 focus:outline-non rounded text-lg mt-10 sm:mt-0"
                     />
-                </div>
-                <div>
-                  <button
-                  type="button"
-                  className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
-                  onClick={handleSubmit}
-                  >
-                    submit
-                  </button>
-                    </div>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
+                      onClick={handleSubmit}
+                    >
+                      submit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -123,11 +118,11 @@ const HistoricalReport = () => {
             <HistoricalTable
               id={data._id}
               data={data}
-              remarks='true'
+              remarks="true"
               filterData={filterData}
               name={startDate}
               endDate={endDate}
-              report='historicalReport'
+              report="historicalReport"
               totalData={totalData}
               setFilterData={setFilterData}
             />
@@ -151,9 +146,3 @@ const HistoricalReport = () => {
 };
 
 export default HistoricalReport;
-
-
-
-
-
-

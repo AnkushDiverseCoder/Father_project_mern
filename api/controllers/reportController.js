@@ -1,4 +1,5 @@
 import { AccountingEntry } from "../models/AccountingEntryModel.js";
+import { BankingEntry } from "../models/BankingEntryModel.js";
 
 // monthlyReport
 export const CustomerReportController = async (req, res) => {
@@ -116,10 +117,52 @@ export const IndividualReportController = async (req, res) => {
   }
 };
 
+// BankingReport
+export const BankingReportController = async (req, res) => {
+  try {
+    const data = await BankingEntry.find({
+      date: {
+        $gte: new Date(req.body.startDateFormated),
+        $lte: new Date(req.body.endDateFormated),
+      },
+    });
+    const TotalData = await BankingEntry.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: new Date(req.body.startDateFormated),
+            $lte: new Date(req.body.endDateFormated),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $sum: 1 },
+          AmountCreditedTotal: { $sum: "$creditAmount" },
+        },
+      },
+    ]);
+
+    res.status(200).json({ status: true, msg: data , TotalData: TotalData});
+  } catch (error) {
+    res.json({ status: false, msg: error.message });
+  }
+};
+
 // remove Entry
 export const removeEntry = async (req, res, next) => {
   try {
     await AccountingEntry.findByIdAndDelete(req.params.id).then(
+      res.status(200).json({ status: true, msg: "deleted Successfully" })
+    );
+  } catch (error) {
+    res.json({ status: false, msg: error.message });
+  }
+};
+// remove Entry
+export const bankRemoveEntry = async (req, res, next) => {
+  try {
+    await bank.findByIdAndDelete(req.params.id).then(
       res.status(200).json({ status: true, msg: "deleted Successfully" })
     );
   } catch (error) {

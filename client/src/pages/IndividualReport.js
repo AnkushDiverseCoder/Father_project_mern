@@ -14,7 +14,12 @@ import {
 } from "../utils/ApiRoutes";
 
 const DailyReport = () => {
+  const [name, setName] = useState("");
+  const [customerNameData, setCustomerNameData] = useState(null);
   const [filterData, setFilterData] = useState([]);
+  const [openTable, setOpenTable] = useState(false);
+  const [data, setData] = useState([]);
+  const [totalData, setTotalData] = useState([]);
 
   useEffect(() => {
     const fetchCustomerName = async () => {
@@ -28,23 +33,17 @@ const DailyReport = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const token = localStorage.getItem("token")
-      const {data}  = await axios.post(verifyToken,{
-        token
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(verifyToken, {
+        token,
       });
 
-      if(data.status==="false"){
+      if (data.status === "false") {
         navigate("/login");
       }
-    }
-    checkUser()
-
+    };
+    checkUser();
   }, [navigate]);
-  const [name, setName] = useState("");
-  const [customerNameData, setCustomerNameData] = useState(null);
-  const [data, setData] = useState([]);
-  const [totalData, setTotalData] = useState([]);
-  const [openTable, setOpenTable] = useState(false);
 
   const toastOptions = {
     position: "bottom-center",
@@ -63,12 +62,13 @@ const DailyReport = () => {
     });
 
     if (res.data.status === false) {
-      toast.error(data.msg, toastOptions);
+      toast.error(res.data.msg, toastOptions);
+      setOpenTable(true);
     }
     if (res.data.status === true) {
-      setFilterData(data);
       toast.success("data received", toastOptions);
       setData(res.data.msg);
+      setFilterData(data);
       setTotalData(res.data.TotalData);
       setOpenTable(true);
     }
@@ -86,7 +86,6 @@ const DailyReport = () => {
                     "I will always Choose a Lazy Person to do a difficult job
                     ... because he will find an easy way to do it..."
                   </h1>
-
 
                   <div className="flex-col w-full justify-center items-center lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
                     <div className="sm:flex-col m-auto lg:inline-flex lg:flex-row lg:items-center lg:justify-center">
@@ -136,16 +135,14 @@ const DailyReport = () => {
                         </Box>
                       </div>
                     </div>
-                        <button
-                          type="button"
-                          className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 shadow-md hover:shadow-xl px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
-                          onClick={handleSubmit}
-                        >
-                          submit
-                        </button>
+                    <button
+                      type="button"
+                      className="flex-shrink-0 bg-[#59b3ae] border-0 py-2 shadow-md hover:shadow-xl px-8 focus:outline-none rounded text-lg ml-2 mt-10 sm:mt-0"
+                      onClick={handleSubmit}
+                    >
+                      submit
+                    </button>
                   </div>
-
-
                 </div>
               </div>
             </div>

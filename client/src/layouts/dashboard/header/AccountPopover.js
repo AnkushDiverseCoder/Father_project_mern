@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import {
@@ -14,30 +15,66 @@ import {
 } from "@mui/material";
 // mocks_
 import account from "../../../_mock/account";
+import { verifyToken } from "../../../utils/ApiRoutes";
 
-// ----------------------------------------------------------------------
 
-const MENU_OPTIONS = [
-  {
-    label: "Dashboard",
-    icon: "eva:home-fill",
-  },
-];
+
+// Date
+// Customer Name
+// Amount Credited
+// Narration 
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const token = localStorage.getItem("token")
+      const {data}  = await axios.post(verifyToken,{
+        token
+      });
+
+      if(data.status==="false"){
+        navigate("/login");
+      }
+        setEmail(data.email);
+    }
+    checkUser()
+
+  }, [navigate]);
+
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const navigate = useNavigate();
 
-  const handleClose = async () => {
+  const handleClose = async (label) => {
+    if(label === "Bank Entry"){
+      navigate("/dashboard/BankingEntry")
+    }else if(label === "Dashboard"){
+      navigate("/dashboard");
+    }
     setOpen(null);
   };
+
+  const MENU_OPTIONS = [
+    {
+      label: "Dashboard",
+      icon: "eva:home-fill",
+    },
+  ];
+  if (email === "bagathsingh59@gmail.com") {
+    MENU_OPTIONS.push({
+      label: "Bank Entry",
+      icon: "eva:home-fill",
+    })
+  }
+
   const handleLogout = async (e) => {
     e.preventDefault();
     localStorage.clear();
@@ -96,7 +133,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+            <MenuItem key={option.label} onClick={()=>handleClose(option.label)}>
               {option.label}
             </MenuItem>
           ))}

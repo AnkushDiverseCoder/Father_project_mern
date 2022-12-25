@@ -11,7 +11,7 @@ import {
   AppWebsiteVisits,
   AppWidgetSummary,
 } from "../sections/@dashboard/app";
-import { TotalCreditAmount, TotalDebitAmount, TotalExcessAmount, TotalShortAmount, verifyToken } from "../utils/ApiRoutes";
+import { TotalCreditAmount, TotalDebitAmount, TotalExcessAmount, TotalShortAmount, complianceAmount, otherDebitAmount, verifyToken } from "../utils/ApiRoutes";
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +22,8 @@ export default function DashboardAppPage() {
   const [DebitAmount, setTotalDebitAmount] = useState(null)
   const [ExcessAmount, setTotalExcessAmount] = useState(null)
   const [ShortAmount, setTotalShortAmount] = useState(null)
+  const [compliance, setCompliance] = useState(null)
+  const [otherDebit, setOtherDebit] = useState(null)
 
   const navigate = useNavigate();
 
@@ -31,10 +33,14 @@ useEffect(()=>{
     const TotalDebitData = await axios.get(TotalDebitAmount)
     const TotalExcessData = await axios.get(TotalExcessAmount)
     const TotalShortData = await axios.get(TotalShortAmount)
+    const complianceData = await axios.get(complianceAmount)
+    const otherDebitAmountData = await axios.get(otherDebitAmount)
     setTotalCreditAmount(TotalCreditData?.data.AmountCreditedTotal)
-    setTotalDebitAmount(TotalDebitData.data.AmountDebitTotal)
-    setTotalExcessAmount(TotalExcessData.data.AmountExcessTotal)
-    setTotalShortAmount(TotalShortData.data.AmountShortTotal)  
+    setTotalDebitAmount(TotalDebitData?.data.AmountDebitTotal)
+    setTotalExcessAmount(TotalExcessData?.data.AmountExcessTotal)
+    setTotalShortAmount(TotalShortData?.data.AmountShortTotal)  
+    setCompliance(complianceData?.data.TotalCompliance)
+    setOtherDebit(otherDebitAmountData?.data.otherDebit)
   }
   getData()
 },[])
@@ -138,7 +144,9 @@ useEffect(()=>{
                 {
                   name: "Excess",
                   type: "line",
-                  fill: "solid",
+                  fill: {
+                    colors: ['#ff4843']
+                  },
                   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                 },
               ]}
@@ -150,13 +158,13 @@ useEffect(()=>{
               title="Current Visits"
               chartData={[
                 // Total Credit  
-                { label: "Credit", value: 4344 },
+                { label: "Credit", value: parseInt(CreditAmount,10) },
                 // Total Compliance Paid EPF + ESIC till now
-                { label: "Compliance", value: 5435 },
+                { label: "Compliance", value: parseInt(compliance,10) },
                 // Total Other Debit
-                { label: "Other Debit", value: 1443 },
+                { label: "Other Debit", value: parseInt(otherDebit,10) },
                 // Total Debit
-                { label: "Total Debit", value: 4443 },
+                { label: "Total Debit", value: parseInt(DebitAmount,10) },
               ]}
               chartColors={[
                 theme.palette.primary.main,

@@ -12,6 +12,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import DailyReport from './pages/DailyReport';
 import HistoricalReport from './pages/HistoricalReport';
 import CustomerHeadReport from './pages/CustomerHeadReport';
+import BankingEntry from './pages/BankingEntry';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ export default function Router() {
         { path: 'dailyReport', element: <DailyReport /> },
         { path: 'historicalReport', element: <HistoricalReport /> },
         { path: 'CustomerHeadReport', element: <CustomerHeadReport/> },
+        { path: 'BankingEntry', element: <BankingEntry/> },
       ],
     },
     {
