@@ -178,6 +178,14 @@ const Table = ({
     },
   };
 
+  const closingBalance = (
+    totalData[0]?.AmountCreditedTotal -
+    (totalData[0]?.epfTotal +
+      totalData[0]?.esicTotal +
+      totalData[0]?.otherTotal +
+      totalData[0]?.professionalFeesTotal)
+  )
+
   const columns = [
     {
       name: <p className="whitespace-pre-line break-words mr-3">Date</p>,
@@ -241,18 +249,19 @@ const Table = ({
     },
     {
       name:  <p className="whitespace-pre-line break-words mr-3">Closing Balance</p>,
-      selector: (row) => (
-        <h1 className="text-blue-600">
-          {(
-            row.monthComplianceAmount -
-            row.epfAmount -
-            row.esicAmount -
-            row.otherDebit -
-            row.professionalFees
-          )?.toLocaleString()}
-          .00
+      selector: () => (
+        <h1>
+          {closingBalance > 0 ?
+             <span  className="text-green-600">
+               {closingBalance}
+               .00
+             </span>:
+             <span  className="text-red-600">
+              {closingBalance}
+             </span>
+           }
         </h1>
-      ),
+      ) ,
       sortable: true,
     },
     {

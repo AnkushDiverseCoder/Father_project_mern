@@ -179,109 +179,22 @@ export const otherDebit = async (req, res, next) => {
 // Second Row Data
 
 export const ChartData = async (req, res, next) => {
+  const date = new Date();
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
   try {
     const january = await AccountingEntry.aggregate([
       {
         $match: {
-          monthComplianceDate: new Date("2022-11-1T21:00:00.000Z"),
-        },
-      },
-      {
-        $group: {
-          _id: {
-            month: { $month: "11" },
-            year: { $year: "2022" },
-          },
-          professionalFees: { $sum: "$professionalFees" },
-          AmountShortTotal: {
-            $sum: {
-              $cond: [
-                {
-                  $lt: [
-                    {
-                      $subtract: [
-                        "$monthComplianceAmount",
-                        {
-                          $sum: {
-                            $add: [
-                              "$epfAmount",
-                              "$esicAmount",
-                              "$otherDebit",
-                              "$professionalFees",
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                    0,
-                  ],
-                },
-                {
-                  $subtract: [
-                    "$monthComplianceAmount",
-                    {
-                      $sum: {
-                        $add: [
-                          "$epfAmount",
-                          "$esicAmount",
-                          "$otherDebit",
-                          "$professionalFees",
-                        ],
-                      },
-                    },
-                  ],
-                },
-                0,
-              ],
-            },
-          },
-          AmountExcessTotal: {
-            $sum: {
-              $cond: [
-                {
-                  $gte: [
-                    {
-                      $subtract: [
-                        "$monthComplianceAmount",
-                        {
-                          $sum: {
-                            $add: [
-                              "$epfAmount",
-                              "$esicAmount",
-                              "$otherDebit",
-                              "$professionalFees",
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                    0,
-                  ],
-                },
-                {
-                  $subtract: [
-                    "$monthComplianceAmount",
-                    {
-                      $sum: {
-                        $add: [
-                          "$epfAmount",
-                          "$esicAmount",
-                          "$otherDebit",
-                          "$professionalFees",
-                        ],
-                      },
-                    },
-                  ],
-                },
-                0,
-              ],
-            },
+          monthComplianceDate: {
+            $gte: new Date("2022-11-1"),
+            $lte: new Date("2022-12-25"),
           },
         },
       },
     ]);
 
-    res.status(200).json(...january);
+    res.status(200).json(january);
   } catch (error) {
     res.status(200).json(error);
   }

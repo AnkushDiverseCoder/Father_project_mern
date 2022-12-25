@@ -162,7 +162,7 @@ export const removeEntry = async (req, res, next) => {
 // remove Entry
 export const bankRemoveEntry = async (req, res, next) => {
   try {
-    await bank.findByIdAndDelete(req.params.id).then(
+    await BankingEntry.findByIdAndDelete(req.params.id).then(
       res.status(200).json({ status: true, msg: "deleted Successfully" })
     );
   } catch (error) {

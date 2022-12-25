@@ -22,7 +22,7 @@ router.get('/Compliance', compilanceAmount)
 router.get('/otherDebit', otherDebit)
 
 // Chart Amount
-router.get('/chartData/:date', ChartData)
+router.get('/chartData/', ChartData)
 
 
 
