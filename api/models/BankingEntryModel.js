@@ -3,7 +3,6 @@ import mongoose from "mongoose"
 const BankingEntrySchema = new mongoose.Schema({
   customerName: {
     type: String,
-    required: true,
   },
   date: {
     type: Date,
@@ -15,7 +14,6 @@ const BankingEntrySchema = new mongoose.Schema({
   },
   narration:{
     type: String,
-    required: true
   }
   
 }, { timestamps: true })

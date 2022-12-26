@@ -1,8 +1,8 @@
 // production host 
-// const host = "https://gorgeous-scrubs-crow.cyclic.app/api"
+const host = "https://gorgeous-scrubs-crow.cyclic.app/api"
 
 // Testing Host 
-const host = "http://localhost:8000/api"
+// const host = "http://localhost:8000/api"
 
 // customer 
 export const CustomerHeadRoute = `${host}/customerhead`

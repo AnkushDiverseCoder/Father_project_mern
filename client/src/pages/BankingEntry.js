@@ -85,20 +85,12 @@ const BankingEntry = () => {
   const handleValidation = () => {
     const { narration, date, creditAmount } = customerEntry;
     const customerName = name;
-    if (customerName === "") {
-      toast.error("Customer Name is required", toastOptions);
-      setDisable(false);
-    } else if (date === "") {
+     if (date === "") {
       toast.error("Date is required", toastOptions);
       setDisable(false);
-      return false;
     } else if (creditAmount === "") {
       toast.error("CreditAmount is required", toastOptions);
       setDisable(false);
-    } else if (narration === "") {
-      toast.error("narration is required", toastOptions);
-      setDisable(false);
-      return false;
     }
     return true;
   };
