@@ -176,14 +176,6 @@ const HistoricalTable = ({
     },
   };
 
-  const closingBalance = (
-    totalData[0]?.AmountCreditedTotal -
-    (totalData[0]?.epfTotal +
-      totalData[0]?.esicTotal +
-      totalData[0]?.otherTotal +
-      totalData[0]?.professionalFeesTotal)
-  )
-
   const columns = [
     {
       name: (
@@ -248,18 +240,39 @@ const HistoricalTable = ({
       name: (
         <p className="whitespace-pre-line break-words mr-3">Closing Balance</p>
       ),
-      selector: () => (
-        <h1>
-        {closingBalance > 0 ?
-           <span  className="text-green-600">
-             {closingBalance}
-             .00
-           </span>:
-           <span  className="text-red-600">
-            {closingBalance}
-           </span>
+      selector: (row) => (
+        <>
+        {row.AmountCreditedTotal- (
+          row?.epfAmount +
+          row?.esicAmount +
+          row?.otherDebit +
+          row?.professionalFees
+          ) >= 0 &&
+          <p className="text-green-400">
+             {(row.AmountCreditedTotal- (
+          row?.epfAmount +
+          row?.esicAmount +
+          row?.otherDebit +
+          row?.professionalFees
+          )).toLocaleString()}
+          </p>
          }
-      </h1>
+        {row.AmountCreditedTotal- (
+          row?.epfAmount +
+          row?.esicAmount +
+          row?.otherDebit +
+          row?.professionalFees
+          ) < 0 &&
+          <p className="text-red-400">
+             {(row.AmountCreditedTotal- (
+          row?.epfAmount +
+          row?.esicAmount +
+          row?.otherDebit +
+          row?.professionalFees
+          )).toLocaleString()}
+          </p>
+         }
+         </>
       ),
       sortable: true,
     },

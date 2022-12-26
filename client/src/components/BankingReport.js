@@ -202,7 +202,7 @@ const BankingReport = ({
     },
     {
       name: "narration",
-      selector: (row) => `${row?.narration.toLocaleString()}.00`,
+      selector: (row) => `${row?.narration.toLocaleString()}`,
       sortable: true,
     },
     ...(email

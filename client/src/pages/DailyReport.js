@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import HistoricalTable from "../components/HistoricalTable";
+import HistoricalTable from "../components/DailyReport";
 import { DailyReportRoute, verifyToken } from "../utils/ApiRoutes";
 
 const HistoricalReport = () => {
@@ -51,6 +51,7 @@ const HistoricalReport = () => {
       startDateFormated,
       endDateFormated,
     });
+    console.log(res.data);
 
     if (res.data.status === false) {
       toast.error(data.msg, toastOptions);
