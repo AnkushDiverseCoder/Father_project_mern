@@ -332,7 +332,7 @@ const HistoricalTable = ({
       // Download Excel file
       XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
     } else {
-      const exportExcel = data.map((item, i) => ({
+      const exportExcel = filterData.map((item, i) => ({
         SNo: i,
         Customer_Name: name,
         Representative_Name: item.representativeName,

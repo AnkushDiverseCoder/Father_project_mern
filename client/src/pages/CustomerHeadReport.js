@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
-import { getCustomerName, verifyToken } from "../utils/ApiRoutes";
+import { getCustomerName, verifyToken , host } from "../utils/ApiRoutes";
 
 const CustomerHeadReport = () => {
   useEffect(() => {
@@ -57,8 +57,9 @@ const CustomerHeadReport = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.get(
-      `https://gorgeous-scrubs-crow.cyclic.app/api/customerHead/${name}`
+    const customerName = name;
+    const res = await axios.post(
+      `${host}/customerHead/data`,{customerName}
     );
 
     if (res.data.status === false) {
@@ -115,7 +116,7 @@ const CustomerHeadReport = () => {
       } = customerData;
 
       const res = await axios.patch(
-        `https://gorgeous-scrubs-crow.cyclic.app/api/customerHead/${data._id}`,
+        `${host}/customerHead/${data._id}`,
         {
           customerName,
           representativeName,
@@ -151,7 +152,7 @@ const CustomerHeadReport = () => {
   const DeleteCustomer = async (e) => {
     e.preventDefault();
     const res = await axios.delete(
-      `https://gorgeous-scrubs-crow.cyclic.app/api/customerHead/${data._id}`
+      `${host}/customerHead/${data._id}`
     );
 
     if (res.data.status === false) {

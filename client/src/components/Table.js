@@ -300,7 +300,7 @@ const Table = ({
 
   const downloadPdf = () => {
     if (remarks) {
-      const exportExcel = data.map((item, i) => ({
+      const exportExcel = filterData.map((item, i) => ({
         SNo: i,
         Date: Moment(item.monthComplianceDate).format("DD-MM-yyy"),
         Customer_Name: item.customerName,

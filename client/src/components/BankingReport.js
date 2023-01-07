@@ -227,7 +227,7 @@ const BankingReport = ({
       const exportExcel = filterData.map((item, i) => ({
         SNo: i,
         Customer_Name: item.customerName,
-        Date : item.date,
+        Date : Moment(item.date)?.format("DD-MMMM-yyy"),
         Credited_Amount : item.creditAmount,
       }));
     

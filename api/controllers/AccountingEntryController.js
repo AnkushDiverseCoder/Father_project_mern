@@ -53,7 +53,7 @@ export const AccountingEntryApi = async (req, res, next) => {
   }
 };
 
-// get all customerName
+// get all customerHeadData
 export const getEmail = async (req, res, next) => {
   const customerHeadData = await CustomerHead.findOne({ customerName:req.body.customerName });
   res.status(200).json({

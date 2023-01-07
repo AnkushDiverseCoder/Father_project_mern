@@ -10,9 +10,8 @@ router.post("/", CustomerHeadApi)
 //  customerHead  Names
 router.get("/", allCustomerName)
 
-
 // get customerHead Data
-router.get("/:id", customerData )
+router.post("/data", customerData )
 
 // Update customerHead Data
 router.patch("/:id", UpdateCustomerData )

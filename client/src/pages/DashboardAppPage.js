@@ -65,7 +65,7 @@ useEffect(()=>{
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Vaishnavi Consultant </title>
       </Helmet>
 
       <Container maxWidth="xl">
