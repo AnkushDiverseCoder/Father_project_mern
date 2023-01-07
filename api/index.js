@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRoute from "./routes/user.js";
+import EmployeeEnrollmentRoute from "./routes/EmployeeEnrollment.js";
 import { customerHeadRoute } from "./routes/CustomerHead.js";
 import { AccountingEntriesRoutes } from "./routes/AccountingEntry.js";
 import { DailyReportRouter } from "./routes/report.js";
@@ -30,6 +31,7 @@ app.use("/api/accountingentry", AccountingEntriesRoutes);
 app.use("/api/report", DailyReportRouter);
 app.use("/api/dashboard", DashboardRoute);
 app.use("/api/bankingEntry", BankingEntryRouter);
+app.use("/api/EmployeeEnrollment", EmployeeEnrollmentRoute);
 
 // connect to db
 mongoose

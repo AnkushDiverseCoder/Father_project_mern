@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
@@ -48,7 +49,7 @@ const AccountingEntries = () => {
   }, [navigate]);
 
   const [customerEntry, setCustomerEntry] = useState({
-    monthComplianceDate: "",
+    monthComplianceDate:  moment().format('YYYY-MM-DD'),
     monthComplianceAmount: "",
     epfAmount: "",
     esicAmount: "",

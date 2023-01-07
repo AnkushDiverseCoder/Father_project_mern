@@ -37,6 +37,11 @@ const navConfig = [
     path: '/dashboard/historicalreport',
     icon: icon('ic_user'),
   },
+  {
+    title: 'Employee Enrollment',
+    path: '/dashboard/EmployeeEnrollment',
+    icon: icon('ic_user'),
+  },
 ];
 
 export default navConfig;

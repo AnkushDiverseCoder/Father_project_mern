@@ -21,8 +21,8 @@ import BankingReport from "../components/BankingReport";
 const BankingEntry = () => {
   const [name, setName] = useState("");
   const [disable, setDisable] = useState(false);
-  const [report, setReport] = useState(false);
   const [openTable, setOpenTable] = useState(false);
+  const [report, setReport] = useState(false);
   const [totalData, setTotalData] = useState(null);
   const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
@@ -83,8 +83,7 @@ const BankingEntry = () => {
   };
 
   const handleValidation = () => {
-    const { narration, date, creditAmount } = customerEntry;
-    const customerName = name;
+    const { date, creditAmount } = customerEntry;
      if (date === "") {
       toast.error("Date is required", toastOptions);
       setDisable(false);
