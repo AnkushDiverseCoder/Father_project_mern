@@ -15,27 +15,35 @@ const CustomerHead = () => {
     date: "",
     email: "",
     remarks: "",
+    epfUserId: "",
+    esiUserId: "",
+    lwfUserId: "",
+    gstUserId: "",
+    shramSuvidaUserId: "",
+    additionalUserId: "",
+    epfPassword: "",
+    esiPassword: "",
+    lwfPassword: "",
+    gstPassword: "",
+    shramSuvidaPassword: "",
+    additionalPassword: "",
   });
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState(false);
+
 
   useEffect(() => {
     const checkUser = async () => {
-      const token = localStorage.getItem("token")
-      const {data}  = await axios.post(verifyToken,{
-        token
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(verifyToken, {
+        token,
       });
 
-      if(data.status==="false"){
+      if (data.status === "false") {
         navigate("/login");
       }
-      if (data.email === "bagathsingh59@gmail.com") {
-        setEmail(true);
-      }
-    }
-    checkUser()
-
+    };
+    checkUser();
   }, [navigate]);
 
   const toastOptions = {
@@ -81,6 +89,18 @@ const CustomerHead = () => {
         date,
         email,
         remarks,
+        epfUserId,
+        esiUserId,
+        lwfUserId,
+        gstUserId,
+        shramSuvidaUserId,
+        additionalUserId,
+        epfPassword,
+        esiPassword,
+        lwfPassword,
+        gstPassword,
+        shramSuvidaPassword,
+        additionalPassword,
       } = customerData;
       const { data } = await axios.post(CustomerHeadRoute, {
         customerName,
@@ -91,6 +111,18 @@ const CustomerHead = () => {
         date,
         email,
         remarks,
+        epfUserId,
+        esiUserId,
+        lwfUserId,
+        gstUserId,
+        shramSuvidaUserId,
+        additionalUserId,
+        epfPassword,
+        esiPassword,
+        lwfPassword,
+        gstPassword,
+        shramSuvidaPassword,
+        additionalPassword,
       });
 
       if (data.status === false) {
@@ -343,13 +375,389 @@ const CustomerHead = () => {
               </div>
             </div>
 
+            {/* 10th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px-">
+                  EPF{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="epfUserId"
+                      value={customerData.epfUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="epfPassword"
+                      autoComplete="off"
+                      value={customerData.epfPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px- mx-auto w-full">
+                  {" "}
+                  ESI{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="esiUserId"
+                      value={customerData.esiUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="esiPassword"
+                      autoComplete="off"
+                      value={customerData.esiPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 6th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px- mx-auto w-full">
+                  {" "}
+                  LWF{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="lwfUserId"
+                      value={customerData.lwfUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="lwfPassword"
+                      autoComplete="off"
+                      value={customerData.lwfPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 7th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px- mx-auto w-full">
+                  {" "}
+                  GST{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="gstUserId"
+                      value={customerData.gstUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="gstPassword"
+                      autoComplete="off"
+                      value={customerData.gstPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 8th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px- mx-auto w-full">
+                  {" "}
+                  ShramSuvida{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="shramSuvidaUserId"
+                      value={customerData.shramSuvidaUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="shramSuvidaPassword"
+                      autoComplete="off"
+                      value={customerData.shramSuvidaPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 9th Box */}
+            <div className="flex gap-6">
+              <div>
+                <h1 className="inline bg-[#fed7aa] mt-4 p-2 ml-2 rounded-2xl text-[#ab4f2d] font-semibold px- mx-auto w-full">
+                  Additional{" "}
+                </h1>
+                <div className="flex gap-6">
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 mt-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                      />
+                    </svg>
+                    <input
+                      className="pl-2 outline-none border-none bg-inherit"
+                      type="text "
+                      name="additionalUserId"
+                      value={customerData.additionalUserId}
+                      onChange={handleChange}
+                      placeholder="User ID"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-5 w-5 text-gray-400"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                      />
+                    </svg>
+
+                    <input
+                      className="pl-2 outline-none border-none w-full bg-inherit"
+                      type="text"
+                      name="additionalPassword"
+                      autoComplete="off"
+                      value={customerData.additionalPassword}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <button
               type="submit"
               className="block w-full bg-green-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
             >
               Save The Customer Head
             </button>
-            {email && (
+           
               <button
                 type="button"
                 onClick={navigateToCustomerHeadReport}
@@ -357,7 +765,6 @@ const CustomerHead = () => {
               >
                 Modify The Customer Head
               </button>
-            )}
           </form>
         </div>
       </div>

@@ -12,6 +12,18 @@ export const CustomerHeadApi = async (req, res, next) => {
       esicNumber,
       email,
       remarks,
+      epfUserId,
+      esiUserId,
+      lwfUserId,
+      gstUserId,
+      shramSuvidaUserId,
+      additionalUserId,
+      epfPassword,
+      esiPassword,
+      lwfPassword,
+      gstPassword,
+      shramSuvidaPassword,
+      additionalPassword,
     } = req.body;
     await CustomerHead.create({
       customerName,
@@ -22,6 +34,18 @@ export const CustomerHeadApi = async (req, res, next) => {
       email,
       representativeName,
       remarks,
+      epfUserId,
+      esiUserId,
+      lwfUserId,
+      gstUserId,
+      shramSuvidaUserId,
+      additionalUserId,
+      epfPassword,
+      esiPassword,
+      lwfPassword,
+      gstPassword,
+      shramSuvidaPassword,
+      additionalPassword,
     });
     res
       .status(200)
@@ -62,20 +86,16 @@ export const customerData = async (req, res, next) => {
 export const UpdateCustomerData = async (req, res, next) => {
   try {
     const customerHeadData = await CustomerHead.findById(req.params.id);
-    console.log(customerHeadData);
     await CustomerHead.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    const res =await AccountingEntry.updateMany(
+    const res = await AccountingEntry.updateMany(
       { customerName: customerHeadData.customerName },
-      { $set: { customerName:req.body.customerName } },
+      { $set: { customerName: req.body.customerName } },
       {
         new: true,
       }
     );
-
-    console.log(res);
-
     res.json({ status: true, msg: "Updated SuccessFully" });
   } catch (error) {
     res.json({ status: true, msg: error.message });

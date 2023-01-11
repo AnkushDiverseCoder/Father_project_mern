@@ -29,6 +29,42 @@ const CustomerHeadSchema = new mongoose.Schema({
   },
   remarks:{
     type: String,
+  },
+  epfUserId:{
+    type: String,
+  },
+  esiUserId:{
+    type: String,
+  },
+  lwfUserId:{
+    type: String,
+  },
+  gstUserId:{
+    type: String,
+  },
+  shramSuvidaUserId:{
+    type: String,
+  },
+  additionalUserId:{
+    type: String,
+  },
+  epfPassword:{
+    type: String,
+  },
+  esiPassword:{
+    type: String,
+  },
+  lwfPassword:{
+    type: String,
+  },
+  gstPassword:{
+    type: String,
+  },
+  shramSuvidaPassword:{
+    type: String,
+  },
+  additionalPassword:{
+    type: String,
   }
   
 }, { timestamps: true })
