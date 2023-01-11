@@ -244,8 +244,8 @@ const EmployeeEnrollmentReport = ({
         Customer_Name: item.customerName,
         EmployeeName: item.EmployeeName,
         fatherName: item.fatherName,
-        Uan: item.Uan,
-        esicIpNumber: item.esicIpNumber,
+        Uan: item.Uan.toLocaleString(),
+        esicIpNumber: item.esicIpNumber.toLocaleString(),
         remarks: item.remarks,
       }));
       const workSheet = XLSX.utils.json_to_sheet(exportExcel);

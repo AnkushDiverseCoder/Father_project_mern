@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "99d6e22e-d51c-4e02-8d1b-1ca4719eed0f",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/api/auth/register",
+    "url": "http://localhost:8000/api/auth/register",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-01-09T13:54:15.392Z",
+    "modified": "2023-01-09T13:54:15.392Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"username\":\"Tanzeela\",\n  \"email\":\"tanzeelatannu087@gmail.com\",\n  \"password\":\"Tanz@123\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

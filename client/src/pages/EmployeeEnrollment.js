@@ -122,7 +122,7 @@ const CustomerHead = () => {
         setCustomerData({
           ...customerData,
           EmployeeName: "",
-          enrollmentDate: "",
+          enrollmentDate: moment().format('YYYY-MM-DD'),
           esicIpNumber: "",
           Uan: "",
           joiningDate: "",
