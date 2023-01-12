@@ -7,6 +7,7 @@ export const host = "http://localhost:8000/api"
 // customer 
 export const CustomerHeadRoute = `${host}/customerhead`
 export const getCustomerName = `${host}/customerhead`
+export const allCustomerHeadData = `${host}/customerhead/all`
 
 // Employee Entry Route
 export const CreateEmployeeEnrollment = `${host}/EmployeeEnrollment`

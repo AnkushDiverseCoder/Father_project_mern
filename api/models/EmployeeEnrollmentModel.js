@@ -14,10 +14,10 @@ EmployeeName: {
     required: true,
   },
   Uan: {
-    type: Number,
+    type: String,
   },
   esicIpNumber: {
-    type: Number,
+    type: String,
   },
   joiningDate: {
     type: Date,

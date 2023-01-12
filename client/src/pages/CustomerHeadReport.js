@@ -411,7 +411,7 @@ const CustomerHeadReport = () => {
 
                         <input
                           className="pl-2 outline-none border-none bg-inherit"
-                          type="Number"
+                          type="text"
                           name="esicNumber"
                           value={customerData.esicNumber}
                           onChange={handleChange}

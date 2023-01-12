@@ -10,7 +10,7 @@ const CustomerHeadSchema = new mongoose.Schema({
     type: String,
   },
   esicNumber: {
-    type: Number,
+    type: String,
   },
   contactNumber: {
     type: Number,

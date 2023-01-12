@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
+import Moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CustomerHeadRoute, verifyToken } from "../utils/ApiRoutes";
+import * as XLSX from "xlsx/xlsx.mjs";
+import excel from "../components/microsoft-excel-icon.png";
+import {
+  CustomerHeadRoute,
+  allCustomerHeadData,
+  verifyToken,
+} from "../utils/ApiRoutes";
 
 const CustomerHead = () => {
   const [customerData, setCustomerData] = useState({
@@ -30,7 +37,6 @@ const CustomerHead = () => {
   });
 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const checkUser = async () => {
@@ -144,9 +150,56 @@ const CustomerHead = () => {
       }
     }
   };
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const totalCustomerData = async () => {
+      const res = await axios.get(allCustomerHeadData);
+      setData(res.data.msg);
+      console.log(res.data.msg);
+    };
+    totalCustomerData();
+  },[]);
 
   const navigateToCustomerHeadReport = () => {
     navigate("/dashboard/customerHeadReport");
+  };
+
+  const downloadPdf = () => {
+    const exportExcel = data.map((item, i) => ({
+      SNo: i+1,
+      Customer_Name: item.customerName,
+      representativeName: item.representativeName,
+      epfNumber: item.epfNumber,
+      esicNumber: item.esicNumber,
+      contactNumber: item.contactNumber,
+      date: Moment(item.date).format("DD-MM-yyy"),
+      email: item.email,
+      remarks: item.remarks,
+      epfUserId: item?.epfUserId,
+      esiUserId: item?.esiUserId,
+      lwfUserId: item?.lwfUserId,
+      gstUserId: item?.gstUserId,
+      shramSuvidaUserId: item?.shramSuvidaUserId,
+      additionalUserId: item?.additionalUserId,
+      epfPassword: item?.epfPassword,
+      esiPassword: item?.esiPassword,
+      lwfPassword: item?.lwfPassword,
+      gstPassword: item?.gstPassword,
+      shramSuvidaPassword: item?.shramSuvidaPassword,
+      additionalPassword: item?.additionalPassword,
+    }));
+    const workSheet = XLSX.utils.json_to_sheet(exportExcel);
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(
+      workBook,
+      workSheet,
+      "Accounting Entries Data"
+    );
+
+    // Binary String
+    XLSX.write(workBook, { bookType: "csv", type: "binary" });
+    // Download Excel file
+    XLSX.writeFile(workBook, "Accounting-Entries-Data.csv");
   };
 
   return (
@@ -154,10 +207,17 @@ const CustomerHead = () => {
       <div className="w-full md:flex">
         <div className="flex justify-center py-10 items-center mx-auto">
           <form onSubmit={handleSubmit}>
-            <div className="">
+            <div className="flex items-center">
               <h1 className="text-gray-800 font-bold text-2xl mb-7">
                 Customer Head Entry Done Here!
               </h1>
+              <button
+                type="button"
+                className="p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out w-10"
+                onClick={downloadPdf}
+              >
+                <img src={excel} alt="" />
+              </button>
             </div>
 
             {/* first Box */}
@@ -757,14 +817,14 @@ const CustomerHead = () => {
             >
               Save The Customer Head
             </button>
-           
-              <button
-                type="button"
-                onClick={navigateToCustomerHeadReport}
-                className="block w-full bg-[#fed7aa] mt-4 py-2 rounded-2xl text-[#ab4f2d] font-semibold mb-2"
-              >
-                Modify The Customer Head
-              </button>
+
+            <button
+              type="button"
+              onClick={navigateToCustomerHeadReport}
+              className="block w-full bg-[#fed7aa] mt-4 py-2 rounded-2xl text-[#ab4f2d] font-semibold mb-2"
+            >
+              Modify The Customer Head
+            </button>
           </form>
         </div>
       </div>

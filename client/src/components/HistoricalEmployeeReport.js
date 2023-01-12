@@ -52,7 +52,6 @@ const HistoricalReport = () => {
       startDateFormated,
       endDateFormated,
     });
-    console.log(res);
     if (res.data.status === false) {
       toast.error(data.msg, toastOptions);
     }

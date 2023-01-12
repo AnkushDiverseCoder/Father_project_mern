@@ -68,6 +68,15 @@ export const allCustomerName = async (req, res, next) => {
     res.json({ status: true, msg: error.message });
   }
 };
+// get all customerHeadData
+export const allCustomerHeadData = async (req, res, next) => {
+  try {
+    const customerData = await CustomerHead.find({})
+    res.json({ status: true, msg: customerData });
+  } catch (error) {
+    res.json({ status: true, msg: error.message });
+  }
+};
 
 // get one customerData
 export const customerData = async (req, res, next) => {
@@ -86,17 +95,17 @@ export const customerData = async (req, res, next) => {
 export const UpdateCustomerData = async (req, res, next) => {
   try {
     const customerHeadData = await CustomerHead.findById(req.params.id);
-    await CustomerHead.findByIdAndUpdate(req.params.id, req.body, {
+    const updated =  await CustomerHead.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    const res = await AccountingEntry.updateMany(
+    await AccountingEntry.updateMany(
       { customerName: customerHeadData.customerName },
       { $set: { customerName: req.body.customerName } },
       {
         new: true,
       }
     );
-    res.json({ status: true, msg: "Updated SuccessFully" });
+    res.json({ status: true, msg: updated });
   } catch (error) {
     res.json({ status: true, msg: error.message });
   }

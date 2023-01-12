@@ -1,5 +1,5 @@
 import express from "express"
-import { allCustomerName, customerData, CustomerHeadApi, DeleteCustomerData, UpdateCustomerData } from "../controllers/CustomerHeadController.js"
+import { allCustomerHeadData, allCustomerName, customerData, CustomerHeadApi, DeleteCustomerData, UpdateCustomerData } from "../controllers/CustomerHeadController.js"
 
 const router = express.Router()
 
@@ -10,8 +10,11 @@ router.post("/", CustomerHeadApi)
 //  customerHead  Names
 router.get("/", allCustomerName)
 
-// get customerHead Data
+// get Single customerHead Data
 router.post("/data", customerData )
+
+// get customerHead Data
+router.get("/all", allCustomerHeadData )
 
 // Update customerHead Data
 router.patch("/:id", UpdateCustomerData )
