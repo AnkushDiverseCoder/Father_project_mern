@@ -48,3 +48,7 @@ export const TotalShortAmount = `${host}/dashboard/shortamount`
 // Second Row
 export const complianceAmount = `${host}/dashboard/compliance`
 export const otherDebitAmount = `${host}/dashboard/otherDebit`
+
+// Dsc
+export const newDscRoute = `${host}/Dsc/new`
+export const existingDscRoute = `${host}/Dsc/old`

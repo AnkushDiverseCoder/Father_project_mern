@@ -16,6 +16,9 @@ import BankingEntry from './pages/BankingEntry';
 import EmployeeEnrollment from './pages/EmployeeEnrollment';
 import IndividualEmployeeReport from './components/IndividualEmployeeReport';
 import HistoricalEmployeeReport from './components/HistoricalEmployeeReport';
+import DscDashboard from './pages/Dsc/DscDashboard';
+import DscReport from './components/Dsc/DscReport';
+import DscEntry from './components/DscEntry/DscEntry';
 
 // ----------------------------------------------------------------------
 
@@ -37,12 +40,22 @@ export default function Router() {
         { path: 'EmployeeEnrollment', element: <EmployeeEnrollment/> },
         { path: 'EmployeeIndividualReport', element: <IndividualEmployeeReport/> },
         { path: 'EmployeeHistoricalReport', element: <HistoricalEmployeeReport/> },
+        { path: 'DscPage', element: <DscDashboard/> },
+        {
+          path: 'NewDsc',
+          element: <DscEntry />,
+        },
+        {
+          path: 'DscReport',
+          element: <DscReport />,
+        },
       ],
     },
     {
       path: 'login',
       element: <LoginPage />,
     },
+   
     {
       element: <SimpleLayout />,
       children: [

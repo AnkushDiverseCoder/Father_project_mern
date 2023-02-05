@@ -53,46 +53,6 @@ const CustomerHeadReport = () => {
     draggable: true,
     theme: "dark",
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const customerName = name;
-    const res = await axios.post(`${host}/customerHead/data`, { customerName });
-
-    if (res.data.status === false) {
-      toast.error(data.msg, toastOptions);
-    }
-    if (res.data.status === true) {
-      toast.success("data received", toastOptions);
-      setData(res.data.msg);
-      setOpenTable(true);
-    }
-
-    setCustomerData({
-      ...customerData,
-      customerName: data?.customerName,
-      representativeName: data?.representativeName,
-      epfNumber: data?.epfNumber ? data?.epfNumber : "",
-      esicNumber: data?.esicNumber ? data?.esicNumber : "",
-      contactNumber: data?.contactNumber,
-      date: moment(data.date)?.format("yyyy-MM-DD"),
-      email: data?.email,
-      remarks: data?.remarks,
-      epfUserId: data?.epfUserId,
-      esiUserId: data?.esiUserId,
-      lwfUserId: data?.lwfUserId,
-      gstUserId: data?.gstUserId,
-      shramSuvidaUserId: data?.shramSuvidaUserId,
-      additionalUserId: data?.additionalUserId,
-      epfPassword: data?.epfPassword,
-      esiPassword: data?.esiPassword,
-      lwfPassword: data?.lwfPassword,
-      gstPassword: data?.gstPassword,
-      shramSuvidaPassword: data?.shramSuvidaPassword,
-      additionalPassword: data?.additionalPassword,
-    });
-  };
-
   const [customerData, setCustomerData] = useState({
     customerName: "",
     representativeName: "",
@@ -115,6 +75,45 @@ const CustomerHeadReport = () => {
     shramSuvidaPassword: "",
     additionalPassword: "",
   });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const customerName = name;
+    const res = await axios.post(`${host}/customerHead/data`, { customerName });
+
+    if (res.data.status === false) {
+      toast.error(data.msg, toastOptions);
+    }
+    if (res.data.status === true) {
+      toast.success("data received", toastOptions);
+      setData(res.data.msg);
+      setOpenTable(true);
+      setCustomerData({
+        customerName: data?.customerName,
+        representativeName: data?.representativeName,
+        epfNumber: data?.epfNumber ? data?.epfNumber : "",
+        esicNumber: data?.esicNumber ? data?.esicNumber : "",
+        contactNumber: data?.contactNumber,
+        date: moment(data.date)?.format("yyyy-MM-DD"),
+        email: data?.email,
+        remarks: data?.remarks,
+        epfUserId: data?.epfUserId? data?.epfUserId : "",
+        esiUserId: data?.esiUserId? data?.esiUserId : "",
+        lwfUserId: data?.lwfUserId? data?.lwfUserId : "",
+        gstUserId: data?.gstUserId? data?.gstUserId : "",
+        shramSuvidaUserId: data?.shramSuvidaUserId? data?.shramSuvidaUserId : "",
+        additionalUserId: data?.additionalUserId? data?.additionalUserId : "",
+        epfPassword: data?.epfPassword? data?.epfPassword : "",
+        esiPassword: data?.esiPassword? data?.esiPassword : "",
+        lwfPassword: data?.lwfPassword? data?.lwfPassword : "",
+        gstPassword: data?.gstPassword? data?.gstPassword : "",
+        shramSuvidaPassword: data?.shramSuvidaPassword? data?.shramSuvidaPassword : "",
+        additionalPassword: data?.additionalPassword? data?.additionalPassword : "",
+      });
+    };
+    }
+
+
 
   const handleChange = (event) => {
     setCustomerData({
@@ -177,7 +176,6 @@ const CustomerHeadReport = () => {
     if (res.data.status === true) {
       toast.success("updated Successfully", toastOptions);
       setCustomerData({
-        ...customerData,
         customerName: "",
         representativeName: "",
         epfNumber: "",

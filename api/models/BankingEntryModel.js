@@ -9,7 +9,7 @@ const BankingEntrySchema = new mongoose.Schema({
     required: true
   },
   creditAmount: {
-    type: String,
+    type: Number,
     required: true
   },
   narration:{
