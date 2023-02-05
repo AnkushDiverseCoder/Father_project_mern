@@ -33,7 +33,7 @@ app.use("/api/report", DailyReportRouter);
 app.use("/api/dashboard", DashboardRoute);
 app.use("/api/bankingEntry", BankingEntryRouter);
 app.use("/api/EmployeeEnrollment", EmployeeEnrollmentRoute);
-app.use("/api/Dsc", NewDscRoute);
+app.use("/api/dsc", NewDscRoute);
 
 // connect to db
 mongoose

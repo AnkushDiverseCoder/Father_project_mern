@@ -20,7 +20,7 @@ export const NewDscApi = async (req, res, next) => {
 export const ExistingDscApi = async (req, res, next) => {
   try {
     
-    const duplicate = await NewDsc.findOne(req.body);
+    const duplicate = await CustomerHead.findOne(req.body);
     if (duplicate) {
       res.json({ status: true, msg: "duplicate Entry Found" });
     } else {
