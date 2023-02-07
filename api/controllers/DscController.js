@@ -3,15 +3,12 @@ import { NewDsc } from "../models/DscModel.js";
 
 export const NewDscApi = async (req, res, next) => {
   try {
-    const duplicate = await NewDsc.findOne(req.body);
-    if (duplicate) {
-      res.json({ status: true, msg: "duplicate Entry Found" });
-    } else {
+    
       await NewDsc.create(req.body);
       res
         .status(200)
         .json({ status: true, msg: "NewDscApi Created successfully" });
-    }
+    
   } catch (error) {
     res.json({ status: false, msg: error.message });
   }
@@ -19,13 +16,10 @@ export const NewDscApi = async (req, res, next) => {
 
 export const ExistingDscApi = async (req, res, next) => {
   try {
-    
-    const duplicate = await CustomerHead.findOne(req.body);
-    if (duplicate) {
-      res.json({ status: true, msg: "duplicate Entry Found" });
-    } else {
-      const findUser = await NewDsc.findOne(req.body.customerName);
+  
+      const findUser = await CustomerHead.findOne({ customerName:req.body.customerName });
       const contact = findUser.contactNumber
+      console.log(contact)
       await NewDsc.create({
         ...req.body,
         contactNumber:contact
@@ -33,7 +27,7 @@ export const ExistingDscApi = async (req, res, next) => {
       res
         .status(200)
         .json({ status: true, msg: "NewDscApi Created successfully" });
-    }
+    
   } catch (error) {
     res.json({ status: false, msg: error.message });
   }

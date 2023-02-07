@@ -103,7 +103,7 @@ const DscEntry = () => {
       const reqBody = {
         customerName: name,
         ...customerEntry,
-        closingBalance: customerEntry.amount - customerEntry.receivedAmount,
+        closingBalance: customerEntry.receivedAmount - customerEntry.amount,
         validTillDate: moment(customerEntry.dateOfGeneration)
           .add(2, "years")
           .format("YYYY-MM-DD"),
@@ -310,7 +310,7 @@ const DscEntry = () => {
                 <input
                   className="pl-2 outline-none border-none bg-inherit"
                   type="Number"
-                  value={customerEntry.amount - customerEntry.receivedAmount}
+                  value={customerEntry.receivedAmount - customerEntry.amount}
                   autoComplete="off"
                   placeholder="Closing Balance"
                 />

@@ -484,6 +484,7 @@ const HistoricalTable = ({
           fixedHeaderScrollHeight="400px"
           highlightOnHover
           customStyles={customStyles}
+          paginationRowsPerPageOptions={[100000]}
           subHeader
           subHeaderComponent={
             <Box

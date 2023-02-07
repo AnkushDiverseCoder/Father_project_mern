@@ -42,7 +42,7 @@ const NewDscSchema = new mongoose.Schema({
         required: true,
     },
     remarks:{
-        type: Date,
+        type: String,
         required: true,
     },
 

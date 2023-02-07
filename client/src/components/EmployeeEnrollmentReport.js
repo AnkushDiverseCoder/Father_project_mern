@@ -312,6 +312,7 @@ const EmployeeEnrollmentReport = ({
           fixedHeader
           fixedHeaderScrollHeight="400px"
           highlightOnHover
+          paginationRowsPerPageOptions={[100000]}
           customStyles={customStyles}
           subHeaderAlign="left"
           subHeader
