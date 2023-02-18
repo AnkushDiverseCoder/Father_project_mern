@@ -63,6 +63,8 @@ const HistoricalReport = () => {
       setOpenTable(true);
     }
   };
+  
+
   return (
     <>
       <div className="bg-[#ffe7d9] w-[100%] shadow-md hover:shadow-xl rounded-lg">

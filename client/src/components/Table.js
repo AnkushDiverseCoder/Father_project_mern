@@ -376,6 +376,7 @@ const Table = ({
       XLSX.writeFile(workBook, "Accounting-Entries-Data.xlsx");
     }
   };
+  const count = Object.keys(data).length;
 
   return (
     <div className="rounded-lg ">
@@ -426,16 +427,27 @@ const Table = ({
         </div>
         <div>
           <p className=" text-[#bb777f] underline">Closing Balance</p>
-          <p className=" text-blue-600 font-bold">
-            {(
+          {(
+              totalData[0]?.AmountCreditedTotal -
+              (totalData[0]?.epfTotal +
+                totalData[0]?.esicTotal +
+                totalData[0]?.otherTotal +
+                totalData[0]?.professionalFeesTotal)
+            )?.toLocaleString() >0 ? <p className="text=[#5491e4] font-extrabold text-xl">
+              {(
               totalData[0]?.AmountCreditedTotal -
               (totalData[0]?.epfTotal +
                 totalData[0]?.esicTotal +
                 totalData[0]?.otherTotal +
                 totalData[0]?.professionalFeesTotal)
             )?.toLocaleString()}
-            .00
-          </p>
+            </p>:<p className="text-[#e03d37] font-extrabold text-xl">{(
+              totalData[0]?.AmountCreditedTotal -
+              (totalData[0]?.epfTotal +
+                totalData[0]?.esicTotal +
+                totalData[0]?.otherTotal +
+                totalData[0]?.professionalFeesTotal)
+            )?.toLocaleString()}</p>}
         </div>
       </div>}
 
@@ -474,6 +486,7 @@ const Table = ({
               <span className="underline font-bold text-xl italic">{name}</span>
             )}
           </h1>
+          <h1 className="mr-auto ml-10 text-xl">Total Count : {count}</h1>
           <button
             type="button"
             className="p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out w-10"
@@ -488,6 +501,7 @@ const Table = ({
           pagination
           fixedHeader
           fixedHeaderScrollHeight="400px"
+          paginationRowsPerPageOptions={[100000]}
           highlightOnHover
           customStyles={customStyles}
           subHeaderAlign="left"

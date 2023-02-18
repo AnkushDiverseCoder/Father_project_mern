@@ -296,7 +296,9 @@ const EmployeeEnrollmentReport = ({
             {report === "individual" && (
               <span className="underline font-bold text-xl italic">{name}</span>
             )}
+            
           </h1>
+          <h1 className="mr-auto ml-10 text-xl">Total Count : { Object.keys(data).length}</h1>
           <button
             type="button"
             className="p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out w-10"
