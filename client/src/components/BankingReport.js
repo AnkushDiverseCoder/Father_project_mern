@@ -285,8 +285,6 @@ const BankingReport = ({
         <DataTable
           columns={columns}
           data={filterData}
-          pagination
-          paginationRowsPerPageOptions={[100000]}
           fixedHeader
           fixedHeaderScrollHeight="400px"
           highlightOnHover

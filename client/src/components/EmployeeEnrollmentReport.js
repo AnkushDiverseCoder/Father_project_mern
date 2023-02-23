@@ -310,11 +310,10 @@ const EmployeeEnrollmentReport = ({
         <DataTable
           columns={columns}
           data={filterData}
-          pagination
           fixedHeader
           fixedHeaderScrollHeight="400px"
           highlightOnHover
-          paginationRowsPerPageOptions={[100000]}
+          rows={[100000]}
           customStyles={customStyles}
           subHeaderAlign="left"
           subHeader

@@ -480,12 +480,10 @@ const HistoricalTable = ({
         <DataTable
           columns={columns}
           data={filterData}
-          pagination
           fixedHeader
           fixedHeaderScrollHeight="400px"
           highlightOnHover
           customStyles={customStyles}
-          paginationRowsPerPageOptions={[100000]}
           subHeader
           subHeaderComponent={
             <Box
