@@ -433,7 +433,7 @@ const Table = ({
                 totalData[0]?.esicTotal +
                 totalData[0]?.otherTotal +
                 totalData[0]?.professionalFeesTotal)
-            )?.toLocaleString() >0 ? <p className="text=[#5491e4] font-extrabold text-xl">
+            )?.toLocaleString() >0 ? <p className="text-[#5491e4] font-extrabold text-xl">
               {(
               totalData[0]?.AmountCreditedTotal -
               (totalData[0]?.epfTotal +
@@ -514,6 +514,7 @@ const Table = ({
               }}
               noValidate
               autoComplete="off"
+              className="flex items-center"
             >
               <TextField
                 id="filled-basic"
@@ -522,6 +523,7 @@ const Table = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
+              <h1 className="mr-auto ml-10 text-blue-900 font-bold ">Total Count : { Object.keys(filterData).length}</h1>
             </Box>
           }
         />

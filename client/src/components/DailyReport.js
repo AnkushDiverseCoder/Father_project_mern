@@ -495,6 +495,7 @@ const HistoricalTable = ({
               }}
               noValidate
               autoComplete="off"
+              className="flex items-center"
             >
               <TextField
                 id="filled-basic"
@@ -503,6 +504,7 @@ const HistoricalTable = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
+               <h1 className="mr-auto ml-10 text-blue-900 font-bold ">Total Count : { Object.keys(filterData).length}</h1>
             </Box>
           }
           subHeaderAlign="left"
