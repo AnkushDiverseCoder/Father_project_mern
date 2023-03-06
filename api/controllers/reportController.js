@@ -16,7 +16,7 @@ export const CustomerReportController = async (req, res) => {
       {
         $group: {
           _id: "$customerName",
-          AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+          AmountCreditedTotal: { $sum: {$toInt : "$monthComplianceAmount"} },
           epfAmount: { $sum: "$epfAmount" },
           esicAmount: { $sum: "$esicAmount" },
           otherDebit: { $sum: "$otherDebit" },
@@ -36,7 +36,7 @@ export const CustomerReportController = async (req, res) => {
       {
         $group: {
           _id: { $sum: 1 },
-          AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+          AmountCreditedTotal: { $sum: {$toInt : "$monthComplianceAmount"} },
           epfTotal: { $sum: "$epfAmount" },
           esicTotal: { $sum: "$esicAmount" },
           otherTotal: { $sum: "$otherDebit" },
@@ -72,7 +72,7 @@ export const monthlyReportController = async (req, res) => {
       {
         $group: {
           _id: { $sum: 1 },
-          AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+          AmountCreditedTotal: { $sum: {$toInt : "$monthComplianceAmount"} },
           epfTotal: { $sum: "$epfAmount" },
           esicTotal: { $sum: "$esicAmount" },
           otherTotal: { $sum: "$otherDebit" },
@@ -101,7 +101,7 @@ export const IndividualReportController = async (req, res) => {
         {
           $group: {
             _id: { $sum: 1 },
-            AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+            AmountCreditedTotal: { $sum:{$toInt : "$monthComplianceAmount"} },
             epfTotal: { $sum: "$epfAmount" },
             esicTotal: { $sum: "$esicAmount" },
             otherTotal: { $sum: "$otherDebit" },
@@ -138,7 +138,7 @@ export const BankingReportController = async (req, res) => {
       {
         $group: {
           _id: { $sum: 1 },
-          AmountCreditedTotal: { $sum: "$creditAmount" },
+          AmountCreditedTotal: { $sum: {$toInt : "$creditAmount"} },
         },
       },
     ]);

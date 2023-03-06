@@ -7,7 +7,7 @@ export const CreditTotal = async (req, res, next) => {
     {
       $group: {
         _id: { $sum: 1 },
-        AmountCreditedTotal: { $sum: "$monthComplianceAmount" },
+        AmountCreditedTotal: { $sum: {$toInt : "$monthComplianceAmount"} },
       },
     },
   ]);
@@ -49,7 +49,7 @@ export const ExcessAmount = async (req, res, next) => {
                 $gte: [
                   {
                     $subtract: [
-                      "$monthComplianceAmount",
+                      {$toInt : "$monthComplianceAmount"},
                       {
                         $sum: {
                           $add: [
@@ -67,7 +67,7 @@ export const ExcessAmount = async (req, res, next) => {
               },
               {
                 $subtract: [
-                  "$monthComplianceAmount",
+                  {$toInt : "$monthComplianceAmount"},
                   {
                     $sum: {
                       $add: [
@@ -103,7 +103,7 @@ export const ShortAmount = async (req, res, next) => {
                 $lt: [
                   {
                     $subtract: [
-                      "$monthComplianceAmount",
+                      {$toInt : "$monthComplianceAmount"},
                       {
                         $sum: {
                           $add: [
@@ -121,7 +121,7 @@ export const ShortAmount = async (req, res, next) => {
               },
               {
                 $subtract: [
-                  "$monthComplianceAmount",
+                  {$toInt : "$monthComplianceAmount"},
                   {
                     $sum: {
                       $add: [

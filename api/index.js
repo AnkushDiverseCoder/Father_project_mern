@@ -10,6 +10,7 @@ import { DailyReportRouter } from "./routes/report.js";
 import { BankingEntryRouter } from "./routes/BankingEntry.js";
 import cookieParser from "cookie-parser";
 import { DashboardRoute } from "./routes/Dashboard.js";
+import { NewDscRoute } from "./routes/NewDsc.js";
 
 // express app
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/report", DailyReportRouter);
 app.use("/api/dashboard", DashboardRoute);
 app.use("/api/bankingEntry", BankingEntryRouter);
 app.use("/api/EmployeeEnrollment", EmployeeEnrollmentRoute);
+app.use("/api/dsc", NewDscRoute);
 
 // connect to db
 mongoose
