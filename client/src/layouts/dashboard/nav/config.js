@@ -42,6 +42,11 @@ const navConfig = [
     path: '/dashboard/EmployeeEnrollment',
     icon: icon('ic_user'),
   },
+  {
+    title: 'Dsc Section',
+    path: '/dashboard/DscPage',
+    icon: icon('ic_user'),
+  },
 ];
 
 export default navConfig;

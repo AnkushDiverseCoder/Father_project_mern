@@ -1,8 +1,8 @@
 // production host 
-// export const host = "https://gorgeous-scrubs-crow.cyclic.app/api"
+export const host = "https://gorgeous-scrubs-crow.cyclic.app/api"
 
 // Testing Host 
-export const host = "http://localhost:8000/api"
+// export const host = "http://localhost:8000/api"
 
 // customer 
 export const CustomerHeadRoute = `${host}/customerhead`
@@ -48,3 +48,9 @@ export const TotalShortAmount = `${host}/dashboard/shortamount`
 // Second Row
 export const complianceAmount = `${host}/dashboard/compliance`
 export const otherDebitAmount = `${host}/dashboard/otherDebit`
+
+// Dsc
+export const newDscRoute = `${host}/Dsc/new`
+export const existingDscRoute = `${host}/Dsc/old`
+export const allDscDataRoute = `${host}/Dsc/all`
+export const dscDeleteRouteRoute = `${host}/Dsc`

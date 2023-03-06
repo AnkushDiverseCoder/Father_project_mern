@@ -468,6 +468,7 @@ const HistoricalTable = ({
               <span className="underline font-bold text-xl italic">{name}</span>
             )}
           </h1>
+          <h1 className="mr-auto ml-10 text-xl">Total Count : { Object.keys(data).length}</h1>
           <button
             type="button"
             className="p-1 rounded-lg text-white active:bg-green-600 active:scale-90 transition duration-150 ease-out w-10"
@@ -479,7 +480,6 @@ const HistoricalTable = ({
         <DataTable
           columns={columns}
           data={filterData}
-          pagination
           fixedHeader
           fixedHeaderScrollHeight="400px"
           highlightOnHover
@@ -493,6 +493,7 @@ const HistoricalTable = ({
               }}
               noValidate
               autoComplete="off"
+              className="flex items-center"
             >
               <TextField
                 id="filled-basic"
@@ -501,6 +502,7 @@ const HistoricalTable = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
+               <h1 className="mr-auto ml-10 text-blue-900 font-bold ">Total Count : { Object.keys(filterData).length}</h1>
             </Box>
           }
           subHeaderAlign="left"
