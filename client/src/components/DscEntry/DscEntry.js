@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -374,4 +373,4 @@ const DscEntry = () => {
   );
 };
 
-export default DscEntry
+export default DscEntry;
